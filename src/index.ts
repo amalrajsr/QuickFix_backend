@@ -4,6 +4,7 @@ import userRoute from './api-routes/user_route'
 import dbConnection from './config/database';
 import errorHandler from './middleware/errorHandler';
 import session from "express-session";
+import IUserData from 'interface/interface';
 import cors from 'cors'
 dotenv.config();
 
@@ -19,15 +20,21 @@ app.use(cors(
       credentials:true
   }
   ))
-  app.use('/api/v1/user',userRoute)
-
+  
   app.use(session({
     resave: false,
     saveUninitialized: false,
     secret: process.env.SECRET,
     
-}))
+  }))
 
+  declare module "express-session" {
+    interface SessionData {
+        user: IUserData
+    }
+}
+  
+  app.use('/api/v1/user',userRoute)
 
 // golbal error handler
 app.use('*',errorHandler)

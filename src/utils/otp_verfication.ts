@@ -6,7 +6,7 @@ const { TWILIO_SERVICE_ID,TWILIO_ACCOUNT_SID,TWILIO_AUTH_TOKEN}=process.env
 const client = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
  
 export const  sendVerificationToken=(phoneNumber:Number)=>{
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve)=>{
         client.verify.
             v2.services(TWILIO_SERVICE_ID)
             .verifications
@@ -20,14 +20,14 @@ export const  sendVerificationToken=(phoneNumber:Number)=>{
             }).catch((error) => {
                 console.log(error);
                 
-                reject(false)
+                resolve(false)
 
             })
     })
 }
 
 export const checkVerificationToken=(otp:string,phoneNumber:number)=>{
-    return new Promise((resolve,reject)=>{
+    return new Promise((resolve)=>{
         client.verify.v2
             .services(TWILIO_SERVICE_ID)
             .verificationChecks
@@ -45,7 +45,6 @@ export const checkVerificationToken=(otp:string,phoneNumber:number)=>{
                 }
             }).catch(() => {
                 console.log('error');
-                
                 resolve(false)
             })
     })

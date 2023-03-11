@@ -11,7 +11,7 @@ interface Address{
 
 interface User{
     name:string,
-    email:string,
+    email?:string,
     mobile:number,
     address?:Address,
     isBlocked:boolean,
@@ -32,7 +32,6 @@ const userSchema=new mongoose.Schema<User>({
     email:{
         type:String,
         unique:true,
-        required:[true,'Email cannot be empty'] ,
         lowercase:true    
 
     },
