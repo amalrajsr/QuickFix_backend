@@ -1,4 +1,4 @@
-import express,{Request,Response,NextFunction} from 'express'
+import express from 'express'
 import dotenv from 'dotenv';
 import userRoute from './api-routes/user_route'
 import dbConnection from './config/database';
@@ -24,7 +24,7 @@ app.use(cors(
   app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: process.env.SECRET,
+    secret: process.env.SECRET as string,
     
   }))
 
@@ -38,9 +38,12 @@ app.use(cors(
 
 // golbal error handler
 app.use('*',errorHandler)
+
 // connecting to database
 dbConnection()
+
 app.listen(port, () => {
+ 
   console.log(`Server is running at http://localhost:${port}`);
 });
 

@@ -1,17 +1,17 @@
 
-import mongoose  from "mongoose";
+import mongoose from "mongoose";
 
-  const dbConnection=()=>{
+const dbConnection = () => {
 
-const uri:string= process.env.MONGOURI || "mongodb://127.0.0.1:27017/quickfix"
-mongoose.set('strictQuery',true);
+  const uri: string = process.env.MONGOURI || "mongodb://127.0.0.1:27017/quickfix"
+  mongoose.set('strictQuery', true);
 
-//Database connection
-mongoose.connect(uri).then(()=>{
+  //Database connection
+  mongoose.connect(uri).then(() => {
     console.log('Database running successfully')
-}).catch((err)=>{
+  }).catch((err) => {
     console.log(err);
-})
+  })
 }
 
 export default dbConnection

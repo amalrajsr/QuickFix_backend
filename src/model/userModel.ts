@@ -2,7 +2,7 @@ import mongoose  from "mongoose"
 
 interface Address{
     fullName:string,
-    email:string,
+    email_id:string,
     mobile:number,
     streetName:string,
     landMark:string,
@@ -12,6 +12,7 @@ interface Address{
 interface User{
     name:string,
     email?:string,
+    avatar?:string,
     mobile:number,
     address?:Address,
     isBlocked:boolean,
@@ -31,10 +32,10 @@ const userSchema=new mongoose.Schema<User>({
     }  ,
     email:{
         type:String,
-        unique:true,
         lowercase:true    
 
     },
+    avatar:String,
     mobile:{
         type:Number,
         unique:true,
@@ -42,7 +43,7 @@ const userSchema=new mongoose.Schema<User>({
     },
     address:{
         fullName:String,
-        email:String,
+        email_id:String,
         mobile:Number,
         streetName:String,
         landMark:String,
