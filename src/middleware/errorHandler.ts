@@ -1,17 +1,17 @@
 import { Request,Response,NextFunction } from "express"
-
+import AppError from "../utils/error"
 const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
     
-    // res.json({error:{success:false,message:err.message}})
-    if(err.statusCode){
+    
+    if(err instanceof AppError){
 
         res.status(err.statusCode).json({error:{success:false,message:err.message}}).status(err.statusCode)
 
     }else{
-        res.json({error:{success:false,message:'something went wrong'}})
+        res.status(500).json({error:{success:false,message:'something went wrong'}})
     }
 
-}
+}  
 
 export default errorHandler
 
