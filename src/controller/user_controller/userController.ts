@@ -21,8 +21,9 @@ export const register= async (req:Request, res:Response, next:NextFunction) => {
 
             req.session.user=req.body
             
-           let otp_status = await sendVerificationToken(mobile)
-            
+        //    let otp_status = await sendVerificationToken(mobile)
+           let otp_status = true
+
              if(otp_status){
                 res.status(200).json({
                     success: true
@@ -49,8 +50,11 @@ export const verify_otp= async(req:Request,res:Response,next:NextFunction)=>{
 
         const {fullname,mobile}=req.session.user
          
-         const otp:string= req.body.mobile 
-           const data= await checkVerificationToken(otp,mobile)
+         const otp:string= req.body.otp 
+         
+        //  const data= await checkVerificationToken(otp,mobile)
+         const data=true
+
               
          if(data){
              const user= new userCollection({
