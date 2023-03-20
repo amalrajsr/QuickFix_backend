@@ -1,6 +1,6 @@
 
 export default interface IUserData{
-    fullname:string,
+    fullname?:string,
     mobile:number
 }
 

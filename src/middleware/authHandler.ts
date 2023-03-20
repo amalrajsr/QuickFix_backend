@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { RequestHandler } from "express";
 import AppError from "../utils/error";
 
-export const userAuthorization: RequestHandler = asyncHandler(
+export const Authorization: RequestHandler = asyncHandler(
   async (req, res, next) => {
     if (
       req.headers.authorization &&
@@ -16,7 +16,7 @@ export const userAuthorization: RequestHandler = asyncHandler(
         (err, decodedToken) => {
           if (err) {
             console.log(err);
-            throw new AppError(401, "User is not authorized");
+            throw new AppError(401, "No authorization");
           } else {
             console.log(decodedToken);
 
@@ -25,7 +25,7 @@ export const userAuthorization: RequestHandler = asyncHandler(
         }
       );
     } else {
-      throw new AppError(401, "User is not authorized");
+      throw new AppError(401, "No authorization");
     }
   }
 );

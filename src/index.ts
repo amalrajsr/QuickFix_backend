@@ -1,6 +1,7 @@
 import express from 'express'
 import dotenv from 'dotenv';
-import userRoute from './api-routes/user_route'
+import userRoute from './api-routes/userRoute'
+import adminRoute from './api-routes/adminRoute'
 import dbConnection from './config/database';
 import errorHandler from './middleware/errorHandler';
 import session from "express-session";
@@ -35,7 +36,8 @@ app.use(cors(
 }
   
   app.use('/api/v1/user',userRoute)
-
+  app.use('/api/v1/admin',adminRoute)
+   
 // golbal error handler
 app.use('*',errorHandler)
 

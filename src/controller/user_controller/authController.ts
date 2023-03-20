@@ -1,19 +1,15 @@
-
-import { RequestHandler, Request,Response,NextFunction } from "express"
 import userCollection from '../../model/userModel'
 import { sendVerificationToken ,checkVerificationToken} from '../../utils/otp_verfication'
 import AppError from "../../utils/error"
 import { createToken } from "../../utils/token_generator"
-import {userServices} from '../../services/user_service'
+import {authServices} from '../../services/user/authService'
 import asyncHandler from "express-async-handler"
-export const register= async (req:Request, res:Response, next:NextFunction) => {
+export const register= asyncHandler( async (req,res) => {
 
-
-    try {
 
         const { fullname,  mobile }: { fullname: string,  mobile: number } = req.body
       
-        const userExist = await userServices.findUserByMobile(mobile)
+        const userExist = await authServices.findUserByMobile(mobile)
         
         if (userExist) {
             throw new AppError(409,'user already exists')
@@ -21,29 +17,24 @@ export const register= async (req:Request, res:Response, next:NextFunction) => {
 
             req.session.user=req.body
             
-        //    let otp_status = await sendVerificationToken(mobile)
-           let otp_status = true
+         let otp_status = await sendVerificationToken(mobile)
+        //    let otp_status = true
 
              if(otp_status){
                 res.status(200).json({
                     success: true
                 })
              }else{
-                throw new AppError(500,'Something went wrong please try again later')
+                throw new AppError(500,'oops! Something went wrong')
              }
           
         }
 
-    } catch (error) {
-        console.log(error);
-        next(error)
-    }
+  
 
-}
+})
 
-export const verify_otp= async(req:Request,res:Response,next:NextFunction)=>{
-
-    try{
+export const verify_otp= asyncHandler( async(req,res)=>{
 
 
         if(req.session.user){
@@ -52,8 +43,8 @@ export const verify_otp= async(req:Request,res:Response,next:NextFunction)=>{
          
          const otp:string= req.body.otp 
          
-        //  const data= await checkVerificationToken(otp,mobile)
-         const data=true
+         const data= await checkVerificationToken(otp,mobile)
+        //  const data=true
 
               
          if(data){
@@ -78,24 +69,39 @@ export const verify_otp= async(req:Request,res:Response,next:NextFunction)=>{
 
         }
 
-    }catch(error){
-
-        console.log(error);
-        next(error)
-        
-    }
+  
    
 
 
- }    
+ })    
+
+ export const resend_otp= asyncHandler( async(req,res)=>{
+
+    console.log(req.session.user);
+    
+    if(req.session.user){
+
+       const  {mobile}= req.session.user
+       let otp_status = await sendVerificationToken(mobile)
+       //    let otp_status = true
+            if(otp_status){
+               res.status(200).json({
+                   success: true
+               })
+            }else{
+               throw new AppError(500,' Something went wrong')
+            }
+    }else{
+        throw new AppError(500,'Something went wrong')
+
+    }
+ })
     
 
- export const user_login:RequestHandler=async(req,res,next)=>{
-
-try{
+ export const user_login=asyncHandler( async(req,res)=>{
 
     const mobile:number=req.body.mobile
-    const userExist = await userServices.findUserByMobile(mobile)
+    const userExist = await authServices.findUserByMobile(mobile)
     if(userExist){
         const otp_status = await sendVerificationToken(mobile)
          if(otp_status){
@@ -108,22 +114,18 @@ try{
         throw new AppError(400,'Something went wrong please try again later')
     }
 
-}catch(err){
-    console.log(err);
-    next(err)
-    
-}
+
  
     
-}
+})
 
-export const verify_login_otp:RequestHandler = asyncHandler(async(req,res,next)=>{
+export const verify_login_otp = asyncHandler(async(req,res)=>{
 
         const {mobile,otp}:{mobile:number,otp:string}=req.body
    
         const otp_status= await checkVerificationToken(otp,mobile)
           if(otp_status){
-           const user= await userServices.findUserByMobile(mobile)
+           const user= await authServices.findUserByMobile(mobile)
           
            const token=  createToken(user._id)
            res.json({

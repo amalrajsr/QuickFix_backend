@@ -1,6 +1,6 @@
 import mongoose  from "mongoose"
 
-interface Address{
+interface IAddress{
     fullName:string,
     email_id:string,
     mobile:number,
@@ -9,12 +9,13 @@ interface Address{
     zipCode:number
 }
 
-interface User{
+export  interface IUser{
+    _id?:mongoose.Types.ObjectId,
     name:string,
     email?:string,
     avatar?:string,
     mobile:number,
-    address?:Address,
+    address?:IAddress,
     isBlocked:boolean,
     isExpert:boolean,
     booking?:mongoose.Types.Array<mongoose.Types.ObjectId>,
@@ -24,7 +25,7 @@ interface User{
 }
 
 
-const userSchema=new mongoose.Schema<User>({
+const userSchema=new mongoose.Schema<IUser>({
 
     name:{
         type:String, 
