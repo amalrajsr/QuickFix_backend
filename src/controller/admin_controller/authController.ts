@@ -1,15 +1,14 @@
 import { authServices } from "../../services/admin/authService";
 import asyncHandler from "express-async-handler"
 import AppError from "../../utils/error";
-import { createToken } from "../../utils/token_generator";
+import { createToken } from "../../utils/tokenGenerator";
 
 export const adminLogin = asyncHandler(async(req,res)=>{
 
     
-    const {name,password}:{name:string,password:string}=req.body
-    
+    const {name,password}:{name:string,password:string}=req.body?.adminData    
     const adminData= await authServices.findAdmin(name,password)
-
+     
     if(adminData){
 
         const token=createToken(adminData._id)
