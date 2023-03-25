@@ -1,10 +1,13 @@
 import { Router } from "express";
-import {register,verify_otp,user_login,verify_login_otp,resend_otp} from '../controller/user_controller/authController'
-import { Authorization } from "../middleware/authHandler";
-const route=Router()
-route.post('/register',register)
-route.post('/verify_otp',verify_otp)
-route.get('/resend_otp',resend_otp)
-route.post('/login',user_login)
-route.post('/verify_login_otp',verify_login_otp)
-export default route
+import {register,verify_otp,user_login,verify_login_otp,resend_otp,userJwtChecker} from '../controller/user_controller/authController'
+import { userAuthorization } from "../middleware/authHandler";
+const router=Router()
+
+router.get('/jwt',userJwtChecker)
+router.post('/register',register)
+router.post('/verify-otp',verify_otp)
+router.get('/resend-otp',resend_otp)
+router.post('/login',user_login)
+router.post('/verify-login-otp',verify_login_otp)
+// router.use(Authorization)
+export default router

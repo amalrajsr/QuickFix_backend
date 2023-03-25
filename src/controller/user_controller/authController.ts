@@ -5,12 +5,38 @@ import {
 } from "../../utils/otpVerfication";
 import AppError from "../../utils/error";
 import { createToken } from "../../utils/tokenGenerator";
-import { authServices } from "../../services/user/authService";
+import { authHelpers } from "../../helper/user/authHepler";
 import asyncHandler from "express-async-handler";
+import jwt from "jsonwebtoken";
+
+
+export const userJwtChecker = asyncHandler(async (req, res, next) => {
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith("Bearer")
+  ) {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+   if(typeof(decoded)!=='string'){
+    const user = await userCollection.findById(decoded.id);
+    if (!user) {
+      throw new AppError(401, "invalid token");
+    } else {
+      res.json({
+        success:true,
+      });
+    }
+  }
+  } else {
+    throw new AppError(401, "No authorization");
+  }
+});
+
+
 export const register = asyncHandler(async (req, res) => {
   const { fullname, mobile }: { fullname: string; mobile: number } = req.body;
 
-  const userExist = await authServices.findUserByMobile(mobile);
+  const userExist = await authHelpers.findUserByMobile(mobile);
 
   if (userExist) {
     throw new AppError(409, "user already exists");
@@ -46,15 +72,16 @@ export const verify_otp = asyncHandler(async (req, res) => {
         mobile: mobile,
       });
 
+
       await user.save();
       const token = createToken(user._id);
-      res
+      res.status(201)
         .json({
           created: true,
           user,
           token,
         })
-        .status(201);
+        ;
     } else {
       throw new AppError(400, "invalid otp");
     }
@@ -82,7 +109,7 @@ export const resend_otp = asyncHandler(async (req, res) => {
 
 export const user_login = asyncHandler(async (req, res) => {
   const mobile: number = req.body.mobile;
-  const userExist = await authServices.findUserByMobile(mobile);
+  const userExist = await authHelpers.findUserByMobile(mobile);
   if (userExist) {
     if (userExist.isBlocked) {
       throw new AppError(401, "your account has been blocked");
@@ -106,7 +133,7 @@ export const verify_login_otp = asyncHandler(async (req, res) => {
 
   const otp_status = await checkVerificationToken(otp, mobile);
   if (otp_status) {
-    const user = await authServices.findUserByMobile(mobile);
+    const user = await authHelpers.findUserByMobile(mobile);
     if (!user) throw new AppError(400, "something went wrong");
     const token = createToken(user._id);
     res.json({

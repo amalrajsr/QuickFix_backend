@@ -1,5 +1,5 @@
 import userCollection from '../../model/userModel'
-export const userServices={
+export const usreHelpers={
 
     fetchAllUser:async(page:string|number):Promise<null|object>=>{
 
@@ -10,7 +10,7 @@ export const userServices={
     },
     block_unblockUser:async(_id:string):Promise<boolean>=>{
           
-        let status=true
+        let status:boolean=true
         const currentStatus= await userCollection.findOne({_id})
         if(currentStatus){
 
