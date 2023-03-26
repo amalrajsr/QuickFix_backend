@@ -30,6 +30,24 @@ export const serviceHelpers = {
         return services
     },
 
+    fetchSingleService:async (id:string):Promise<IService|null>=>{
+
+        const service= await serviceCollection.findById(id)
+
+        return service
+
+    },
+
+    editService:async (_id:string,data:IService):Promise<boolean>=>{
+       
+        let status:boolean
+        const updateStatus= await serviceCollection.updateOne({_id},{$set:data})
+
+        updateStatus.modifiedCount ? status=true:status=false    
+        
+        return status
+    },
+
     deleteService: async (id: string): Promise<boolean> => {
      
         

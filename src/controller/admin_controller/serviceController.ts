@@ -9,7 +9,7 @@ export const addService = asyncHandler(
     if (req.file) {
       const result = await cloudinary.uploader.upload(req.file.path, {
         transformation: [
-          { width: 250, height: 200, gravity: "face", crop: "fill" },
+          { width: 450, height: 400, gravity: "face", crop: "fill" },
         ],
       });
 
@@ -18,7 +18,7 @@ export const addService = asyncHandler(
         const service: IService = { ...req.body,service:name, image: result.secure_url };
         const status = await serviceHelpers.addService(service);
         if (!status) throw new Error("something went wrong");
-        res.json({
+        res.status(200).json({
           success: status,
         });
       } else {
@@ -34,13 +34,52 @@ export const fetchServices=asyncHandler(async(req,res)=>{
 
     const services=await serviceHelpers.fetchServices()
      
-    res.json({
+    res.status(200).json({
       success:true,
       services
     })
     
     
 })
+
+export const fetchSingleService=asyncHandler(async(req,res)=>{
+
+  const service= await serviceHelpers.fetchSingleService(req.params.id)
+  
+  if(!service){
+    throw new AppError(400,'invalid id')
+  }
+  res.status(200).json({
+    success:true,
+    data:service
+  })
+  
+})
+
+export const editService=asyncHandler(async(req,res)=>{
+
+  const name=req.body.service.toUpperCase()
+  let serviceData:IService={...req.body,service:name}
+  if(req.file){
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      transformation: [
+        { width: 500, height: 500, gravity: "face", crop: "fill" },
+      ],
+    });
+    serviceData={...serviceData,image:result.secure_url}
+  }
+
+  const status= await serviceHelpers.editService(req.params.id,serviceData)
+  if(!status){
+    throw new AppError(500, 'something went wrong,please try again later')
+  }else{
+
+    res.status(200).json({success:true})
+  }
+  
+  
+})
+
 
 export const deleteService=asyncHandler(async(req,res)=>{
     if(req.params?.id){

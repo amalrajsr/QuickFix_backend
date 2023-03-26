@@ -17,6 +17,8 @@ export const block_unblockUser=asyncHandler(async(req,res)=>{
     const {id}= req.body
     let statusCode:number
     const status= await usreHelpers.block_unblockUser(id)
+    console.log(status);
+    
      status?statusCode=200:statusCode=400     
     res.status(statusCode).json({
         updated:status

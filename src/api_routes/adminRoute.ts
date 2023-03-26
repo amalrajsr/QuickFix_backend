@@ -1,16 +1,17 @@
 import { adminAuthorization } from "../middleware/authHandler";
 import { Router } from "express";
-import { adminLogin } from "../controller/admin_controller/authController";
+import { adminLogin,adminJwtChecker } from "../controller/admin_controller/authController";
 import { fetchUsers,block_unblockUser } from "../controller/admin_controller/userController";
-import { addService ,fetchServices,deleteService} from "../controller/admin_controller/serviceController";
+import { addService ,fetchServices,deleteService,fetchSingleService,editService} from "../controller/admin_controller/serviceController";
 import uploadCloudinary from "../utils/multer";
 const router=Router()
 
+router.get('/jwt',adminJwtChecker)
 router.post('/login',adminLogin)
-router.use(adminAuthorization)
+ router.use(adminAuthorization)
 //user management
 router.route('/users').get(fetchUsers).patch(block_unblockUser)
 //service management
 router.route('/services').get(fetchServices).post(uploadCloudinary.single('file'),addService)
-router.delete('/services/:id',deleteService)
+router.route('/services/:id').get(fetchSingleService).put(uploadCloudinary.single('image'),editService).delete(deleteService)
 export default router
