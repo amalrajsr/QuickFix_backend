@@ -1,13 +1,13 @@
-import { Request,Response,NextFunction } from "express"
+import { Request,Response } from "express"
 import { TokenExpiredError } from "jsonwebtoken";
 import AppError from "../utils/error"
-const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
+const errorHandler=(err:Error,req:Request,res:Response)=>{
     
      console.log(err);
     
     if(err instanceof AppError){
 
-        res.status(err.statusCode).json({error:{success:false,message:err.message}}).status(err.statusCode)
+        res.status(err.statusCode).json({error:{success:false,message:err.message}})
 
     }else if(err instanceof TokenExpiredError){
 
@@ -18,6 +18,7 @@ const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
     }
 
 }  
+
 
 export default errorHandler
 

@@ -3,19 +3,38 @@ import { serviceHelpers } from "../../helper/admin/serviceHelper";
 import { IService } from "../../model/serviceModel";
 import AppError from "../../utils/error";
 import cloudinary from "../../config/cloudinary";
+import { IRequest } from "../../interface/interface";
+
+
 export const addService = asyncHandler(
   async (req, res): Promise<void> => {    
     
-    if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path, {
+    // throws error is req.files is undefined or not an array or array of length 0
+    if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
+    throw new AppError(500,'something went wrong')
+    }
+
+    const images= req.files.map(async(file,i)=>{
+
+      if(i<1){
+    return await  cloudinary.uploader.upload(file.path, {
         transformation: [
           { width: 450, height: 400, gravity: "face", crop: "fill" },
         ],
       });
+    }else{
+      return await  cloudinary.uploader.upload(file.path);
+    }
 
-      if (result) {
+    })
+    
+    const results = await Promise.all(images);
+
+
+
+      if (results) {
         const name=req.body.service.toUpperCase()
-        const service: IService = { ...req.body,service:name, image: result.secure_url };
+        const service: IService = { ...req.body,service:name, image: results[0].secure_url ,largeImage:results[1].secure_url};
         const status = await serviceHelpers.addService(service);
         if (!status) throw new Error("something went wrong");
         res.status(200).json({
@@ -24,9 +43,7 @@ export const addService = asyncHandler(
       } else {
         throw Error("something went wrong");
       }
-    } else {
-      throw new AppError(500, "something went wrong");
-    }
+  
   }
 );
 
@@ -56,18 +73,33 @@ export const fetchSingleService=asyncHandler(async(req,res)=>{
   
 })
 
-export const editService=asyncHandler(async(req,res)=>{
+export const editService=asyncHandler(async(req:IRequest,res)=>{
 
-  const name=req.body.service.toUpperCase()
-  let serviceData:IService={...req.body,service:name}
-  if(req.file){
-    const result = await cloudinary.uploader.upload(req.file.path, {
-      transformation: [
-        { width: 500, height: 500, gravity: "face", crop: "fill" },
-      ],
-    });
-    serviceData={...serviceData,image:result.secure_url}
+
+    if (!req.files) {
+      throw new AppError(500,'something went wrong')
+      }
+
+      const name=req.body.service.toUpperCase()
+      let serviceData:IService={...req.body,service:name}
+     
+  if(req.files.image){
+
+    const result= await cloudinary.uploader.upload(req.files.image[0].path, {
+          transformation: [
+            { width: 450, height: 400, gravity: "face", crop: "fill" },
+          ],
+        });
+
+         serviceData={...req.body,image:result.secure_url}
+         
+         
   }
+  if(req.files.largeImage){
+
+    serviceData={...serviceData,largeImage:req.files.largeImage[0].path}
+  }
+      
 
   const status= await serviceHelpers.editService(req.params.id,serviceData)
   if(!status){

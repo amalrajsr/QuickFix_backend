@@ -12,6 +12,6 @@ router.post('/login',adminLogin)
 //user management
 router.route('/users').get(fetchUsers).patch(block_unblockUser)
 //service management
-router.route('/services').get(fetchServices).post(uploadCloudinary.single('file'),addService)
-router.route('/services/:id').get(fetchSingleService).put(uploadCloudinary.single('image'),editService).delete(deleteService)
+router.route('/services').get(fetchServices).post(uploadCloudinary.array('file'),addService)
+router.route('/services/:id').get(fetchSingleService).put(uploadCloudinary.fields([{name:'image',maxCount:1},{name:'largeImage',maxCount:1}]),editService).delete(deleteService)
 export default router

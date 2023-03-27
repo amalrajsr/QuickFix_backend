@@ -37,13 +37,13 @@ export const register = asyncHandler(async (req, res) => {
   const { fullname, mobile }: { fullname: string; mobile: number } = req.body;
 
   const userExist = await authHelpers.findUserByMobile(mobile);
-
+   
   if (userExist) {
     throw new AppError(409, "user already exists");
   } else {
     req.session.user = req.body;
 
-    let otp_status = await sendVerificationToken(mobile);
+    const otp_status = await sendVerificationToken(mobile);
     //    let otp_status = true
 
     if (otp_status) {
@@ -93,7 +93,7 @@ export const verify_otp = asyncHandler(async (req, res) => {
 export const resend_otp = asyncHandler(async (req, res) => {
   if (req.session.user) {
     const { mobile } = req.session.user;
-    let otp_status = await sendVerificationToken(mobile);
+    const otp_status = await sendVerificationToken(mobile);
     //    let otp_status = true
     if (otp_status) {
       res.status(200).json({

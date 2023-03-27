@@ -31,11 +31,11 @@ export const adminLogin = asyncHandler(async(req,res)=>{
 
     const {name,password}:{name:string,password:string}=req.body   
     const adminData= await authHelpers.findAdmin(name,password)
-     console.log(adminData);
      
     if(adminData){
 
         const token=createToken(adminData._id)
+        
         res.json({
             success:true,
             admin:adminData,

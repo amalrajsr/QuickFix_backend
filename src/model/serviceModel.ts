@@ -4,6 +4,7 @@ export interface IService{
     _id?:Types.ObjectId,
     service:string,
     image:string,
+    largeImage:string,
     installationCharge1Hour:number,
     installationChargeLatelyHours:number,
     repairCharge1Hour:number,
@@ -22,6 +23,10 @@ const serviceSchema= new Schema<IService>({
         type:String,
          required:true
     }, 
+     largeImage:{
+        type:String,
+         required:true
+    },
     installationCharge1Hour:{
         type:Number,
         required:true
