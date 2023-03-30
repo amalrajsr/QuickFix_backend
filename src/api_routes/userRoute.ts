@@ -1,10 +1,11 @@
 import { Router } from "express";
-import {register,verify_otp,user_login,verify_login_otp,resend_otp,userJwtChecker} from '../controller/user_controller/authController'
+import {register,verify_otp,user_login,verify_login_otp,resend_otp} from '../controller/user_controller/authController'
+import { jwtChecker } from "../utils/jwtChecker";
 import { fetchServices } from "../controller/admin_controller/serviceController";
 import { userAuthorization } from "../middleware/authHandler";
 const router=Router()
 
-router.get('/jwt',userJwtChecker)
+router.get('/jwt',jwtChecker)
 router.post('/register',register)
 router.post('/verify-otp',verify_otp)
 router.get('/resend-otp',resend_otp)

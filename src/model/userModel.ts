@@ -1,18 +1,17 @@
 import mongoose  from "mongoose"
 
 interface IAddress{
-    fullName:string,
-    email_id:string,
-    mobile:number,
-    streetName:string,
-    landMark:string,
+    name:string
+    mobile:string,
+    street:string,
+    landmark:string,
+    address:string,
     zipCode:number
 }
 
 export  interface IUser{
     _id:mongoose.Types.ObjectId,
     name:string,
-    email?:string,
     avatar?:string,
     mobile:number,
     address?:IAddress,
@@ -31,11 +30,6 @@ const userSchema=new mongoose.Schema<IUser>({
         type:String, 
         required:[true,'Name cannot be empty']     
     }  ,
-    email:{
-        type:String,
-        lowercase:true    
-
-    },
     avatar:String,
     mobile:{
         type:Number,

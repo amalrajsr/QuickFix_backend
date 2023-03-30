@@ -3,7 +3,6 @@ import asyncHandler from "express-async-handler";
 import AppError from "../utils/error";
 import userCollection from "../model/userModel";
 import adminCollection from "../model/adminModel";
-import mongoose from "mongoose";
 
 export const userAuthorization = asyncHandler(async (req, res, next) => {
   if (
@@ -14,7 +13,7 @@ export const userAuthorization = asyncHandler(async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
 
     if (typeof decoded !== "string") {
-      const user = await userCollection.findById(decoded.id);
+      const user = await userCollection.findOne({_id:decoded.id,isBlocked:false});
       if (!user) {
         throw new AppError(401, "invalid token");
       } else {

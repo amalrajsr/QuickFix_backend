@@ -42,12 +42,14 @@ export const serviceHelpers = {
        
         let status:boolean
         const updateStatus= await serviceCollection.updateOne({_id},{$set:data})
-
+        console.log(data);
+        
         updateStatus.modifiedCount ? status=true:status=false    
         
         return status
     },
 
+    
     deleteService: async (id: string): Promise<boolean> => {
      
         

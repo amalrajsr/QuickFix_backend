@@ -7,30 +7,9 @@ import AppError from "../../utils/error";
 import { createToken } from "../../utils/tokenGenerator";
 import { authHelpers } from "../../helper/user/authHepler";
 import asyncHandler from "express-async-handler";
-import jwt from "jsonwebtoken";
 
 
-export const userJwtChecker = asyncHandler(async (req, res, next) => {
-  if (
-    req.headers.authorization &&
-    req.headers.authorization.startsWith("Bearer")
-  ) {
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
-   if(typeof(decoded)!=='string'){
-    const user = await userCollection.findById(decoded.id);
-    if (!user) {
-      throw new AppError(401, "invalid token");
-    } else {
-      res.json({
-        success:true,
-      });
-    }
-  }
-  } else {
-    throw new AppError(401, "No authorization");
-  }
-});
+
 
 
 export const register = asyncHandler(async (req, res) => {

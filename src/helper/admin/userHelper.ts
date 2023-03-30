@@ -10,7 +10,9 @@ export const usreHelpers={
     },
     block_unblockUser:async(_id:string):Promise<boolean>=>{
           
-        let status:boolean=true
+        let status=true
+      
+        
         const currentStatus= await userCollection.findOne({_id})
         if(currentStatus){
 

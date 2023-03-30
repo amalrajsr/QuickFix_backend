@@ -1,7 +1,7 @@
-import { Request,Response } from "express"
+import { NextFunction, Request,Response } from "express"
 import { TokenExpiredError } from "jsonwebtoken";
 import AppError from "../utils/error"
-const errorHandler=(err:Error,req:Request,res:Response)=>{
+const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
     
      console.log(err);
     
@@ -18,6 +18,7 @@ const errorHandler=(err:Error,req:Request,res:Response)=>{
     }
 
 }  
+
 
 
 export default errorHandler

@@ -7,7 +7,7 @@ import { IRequest } from "../../interface/interface";
 
 
 export const addService = asyncHandler(
-  async (req, res): Promise<void> => {    
+  async (req, res)=> {    
     
     // throws error is req.files is undefined or not an array or array of length 0
     if (!req.files || !Array.isArray(req.files) || req.files.length === 0) {
@@ -75,10 +75,6 @@ export const fetchSingleService=asyncHandler(async(req,res)=>{
 
 export const editService=asyncHandler(async(req:IRequest,res)=>{
 
-
-    if (!req.files) {
-      throw new AppError(500,'something went wrong')
-      }
 
       const name=req.body.service.toUpperCase()
       let serviceData:IService={...req.body,service:name}
