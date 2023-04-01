@@ -1,9 +1,10 @@
 import asyncHandler from "express-async-handler";
-import { crudHelper } from "../../helper/admin/crudHelper";
+import { crudHelper } from "../../helper/crudHelper";
 import locationCollection from "../../model/locationModel";
 export const addLocation = asyncHandler(async (req, res) => {
 
   const filter={pincode:req.body.pincode}
+ 
   const result = await crudHelper.addItem(
     locationCollection,
     req.body,
@@ -23,17 +24,17 @@ export const fetchLocations = asyncHandler(async (req, res) => {
 
   res.json({
     success: true,
-    data: result,
+    locations: result,
   });
 });
 
 export const blockLocation = asyncHandler(async (req, res) => {
-  console.log(req.params.id);
+
   const result = await crudHelper.block_UnBlock_Items(
     locationCollection,
     req.params.id
   );
-  console.log(result);
+  
   res.json({
     status: result,
   });
@@ -41,8 +42,8 @@ export const blockLocation = asyncHandler(async (req, res) => {
 
 export const editLocation=asyncHandler(async (req,res)=>{
 
-console.log(req.body)
- const filter={pincode:req.body.pincode}
+ const filter={place:req.body.place,pincode:req.body.pincode}
+
    const result= await crudHelper.editItem(locationCollection,req.params.id,req.body,filter)
 
    res.json({
@@ -50,3 +51,5 @@ console.log(req.body)
       updated:result
    })
 })
+
+

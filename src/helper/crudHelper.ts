@@ -1,18 +1,21 @@
-import AppError from "../../utils/error";
+import AppError from "../utils/error";
 import { Model } from "mongoose";
 export const crudHelper = {
   addItem: async (
-    collection:Model<any>,
+    model: Model<any>,
     data: any,
-    filter: object
+    filter?: object
   ): Promise<null | any> => {
     
-    const itemExists = await collection.findOne(filter);
-    if (itemExists) {
-      throw new AppError(409, "location alreday exists");
+    if (filter) {
+      const itemExists = await model.findOne(filter);
+
+      if (itemExists) {
+        throw new AppError(409, "data alreday exists");
+      }
     }
-    const location = new collection(data);
-    const result = await location.save();
+    const collection = new model(data);
+    const result = await collection.save();
     if (result) {
       return result;
     }
@@ -20,20 +23,23 @@ export const crudHelper = {
     return false;
   },
 
-  fetchItems: async (collection:Model<any>): Promise<[] | any> => {
-    
+  fetchItems: async (collection: Model<any>): Promise<[] | any> => {
     const data = await collection.find();
     return data;
   },
-  fetchSingleItem: async (collection:Model<any>, _id: string): Promise<any> => {
-    
+  fetchSingleItem: async (
+    collection: Model<any>,
+    _id: string
+  ): Promise<any> => {
     const data = await collection.findById(_id);
 
     return data;
   },
-  block_UnBlock_Items: async (collection:Model<any>, _id: string): Promise<boolean> => {
+  block_UnBlock_Items: async (
+    collection: Model<any>,
+    _id: string
+  ): Promise<boolean> => {
     let status = true;
-    
 
     const currentStatus = await collection.findOne({ _id });
     if (currentStatus) {
@@ -58,12 +64,11 @@ export const crudHelper = {
     const itemExists = await collection.findOne(filter);
 
     if (itemExists) {
-
-      throw new AppError(409, "location alreday exists");
+      throw new AppError(409, "data alreday exists");
     }
-    console.log(_id);
     let status: boolean;
     const updateStatus = await collection.updateOne({ _id }, { $set: data });
+
     updateStatus.modifiedCount ? (status = true) : (status = false);
     return status;
   },

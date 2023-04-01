@@ -10,6 +10,7 @@ const router=Router()
 
 router.get('/jwt',jwtChecker)
 router.post('/login',adminLogin)
+router.route('/locations').get(fetchLocations)
  router.use(adminAuthorization)
 //user management
 router.route('/users').get(fetchUsers).patch(block_unblockUser)
@@ -19,5 +20,6 @@ router.route('/services/:id').get(fetchSingleService).put(uploadCloudinary.field
 
 //location management
 router.route('/locations').get(fetchLocations).post(addLocation)
-router.route('/locations/:id').patch(blockLocation).put(editLocation)
+router.route('/locations/:id').put(editLocation).patch(blockLocation)
+
 export default router

@@ -1,9 +1,5 @@
 import {Schema,model} from "mongoose";
-
-export interface IAdmin{
-    name:string,
-    password:string
-}
+import { IAdmin } from "interface/interface";
 
 const adminSchema= new Schema<IAdmin>({
 

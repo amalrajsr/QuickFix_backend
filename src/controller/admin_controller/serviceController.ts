@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import { serviceHelpers } from "../../helper/admin/serviceHelper";
-import { IService } from "../../model/serviceModel";
+import { IService } from "../../interface/interface";
 import AppError from "../../utils/error";
 import cloudinary from "../../config/cloudinary";
 import { IRequest } from "../../interface/interface";

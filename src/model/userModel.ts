@@ -1,27 +1,5 @@
 import mongoose  from "mongoose"
-
-interface IAddress{
-    name:string
-    mobile:string,
-    street:string,
-    landmark:string,
-    address:string,
-    zipCode:number
-}
-
-export  interface IUser{
-    _id:mongoose.Types.ObjectId,
-    name:string,
-    avatar?:string,
-    mobile:number,
-    address?:IAddress,
-    isBlocked:boolean,
-    isExpert:boolean,
-    booking?:mongoose.Types.Array<mongoose.Types.ObjectId>,
-    expertCategory?:string,
-    expertRating?:number,  
-    expertWorks?:mongoose.Types.Array<mongoose.Types.ObjectId>
-}
+import { IUser } from "../interface/interface"
 
 
 const userSchema=new mongoose.Schema<IUser>({
@@ -46,7 +24,7 @@ const userSchema=new mongoose.Schema<IUser>({
     },
     booking:[{
         type:mongoose.Types.ObjectId,
-        ref:'work'
+        ref:'booking'
    }],
     isBlocked:{
         type:Boolean,

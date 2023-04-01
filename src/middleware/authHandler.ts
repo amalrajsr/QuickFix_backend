@@ -28,9 +28,7 @@ export const userAuthorization = asyncHandler(async (req, res, next) => {
 });
 
 export const adminAuthorization = asyncHandler(async (req, res, next) => {
- 
 
-  
   if (
     req.headers.authorization &&
     req.headers.authorization.startsWith("Bearer")

@@ -1,7 +1,8 @@
 import asyncHandler from "express-async-handler"
 import AppError from "../utils/error";
-import adminCollection, { IAdmin } from "../model/adminModel";
-import userCollection, { IUser } from '../model/userModel'
+import adminCollection   from "../model/adminModel";
+import userCollection from '../model/userModel'
+import {IAdmin ,IUser} from '../interface/interface'
 import jwt from "jsonwebtoken"
 import { Model } from "mongoose";
 

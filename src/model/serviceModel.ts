@@ -1,16 +1,5 @@
-import   {Schema, model,Types} from 'mongoose'
-
-export interface IService{
-    _id?:Types.ObjectId,
-    service:string,
-    image:string,
-    largeImage:string,
-    installationCharge1Hour:number,
-    installationChargeLatelyHours:number,
-    repairCharge1Hour:number,
-    repairChargeLatelyHours:number,
-    isDeleted?:boolean
-}
+import   {Schema, model} from 'mongoose'
+import { IService } from '../interface/interface'
 
 
 const serviceSchema= new Schema<IService>({

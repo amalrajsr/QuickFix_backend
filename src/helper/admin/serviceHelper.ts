@@ -1,6 +1,6 @@
 import AppError from "../../utils/error";
-import serviceCollection, { IService } from "../../model/serviceModel";
-
+import  { IService } from "../../interface/interface";
+import serviceCollection from  '../../model/serviceModel'
 export const serviceHelpers = {
 
     addService: async (data: IService): Promise<boolean> => {

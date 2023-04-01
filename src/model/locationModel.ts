@@ -1,11 +1,5 @@
 import {Schema,model} from "mongoose";
-
-export interface ILocation{
-
-    place:string,
-    pincode:number,
-    isBlocked?:boolean
-}
+import { ILocation } from "../interface/interface";
 
 const locationModel= new Schema<ILocation>({
     place:{
