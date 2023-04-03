@@ -11,22 +11,19 @@ import asyncHandler from "express-async-handler";
 
 
 
-
 export const register = asyncHandler(async (req, res) => {
-  const { fullname, mobile }: { fullname: string; mobile: number } = req.body;
+  const { name, mobile }: { name: string; mobile: number } = req.body;
 
   const userExist = await authHelpers.findUserByMobile(mobile);
    
   if (userExist) {
     throw new AppError(409, "user already exists");
   } else {
-    req.session.user = req.body;
-
-    const otp_status = await sendVerificationToken(mobile);
-    //    let otp_status = true
-
+   
+     const otp_status = await sendVerificationToken(mobile);
+    //  const otp_status = true
     if (otp_status) {
-      res.status(200).json({
+      res.json({
         success: true,
       });
     } else {
@@ -37,18 +34,22 @@ export const register = asyncHandler(async (req, res) => {
 
 export const verify_otp = asyncHandler(async (req, res) => {
 
-  if (req.session.user) {
-    const { fullname, mobile } = req.session.user;
+ 
 
-    const otp: string = req.body.otp;
+ 
+    const { name, mobile,otp } = req.body;
+     if(!name || !mobile || !otp){
+      throw new AppError(400,'bad request')
+     }
 
     const data = await checkVerificationToken(otp, mobile);
     //  const data=true
 
     if (data) {
       const user = new userCollection({
-        name: fullname,
+        name: name,
         mobile: mobile,
+        avatar:'https://res.cloudinary.com/dsw9tifez/image/upload/v1680511516/quickfix/static/profile_eil3c6.jpg'
       });
 
 
@@ -64,14 +65,12 @@ export const verify_otp = asyncHandler(async (req, res) => {
     } else {
       throw new AppError(400, "invalid otp");
     }
-  } else {
-    throw new AppError(500, "Something went wrong please try again later");
-  }
+
 });
 
 export const resend_otp = asyncHandler(async (req, res) => {
-  if (req.session.user) {
-    const { mobile } = req.session.user;
+  if (req.body) {
+    const { mobile } = req.body.user;
     const otp_status = await sendVerificationToken(mobile);
     //    let otp_status = true
     if (otp_status) {

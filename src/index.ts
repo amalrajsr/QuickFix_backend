@@ -1,11 +1,10 @@
 import express from 'express'
 import dotenv from 'dotenv';
-import userRoute from './api_routes/userRoute'
-import adminRoute from './api_routes/adminRoute'
+import userRoute from './routes/userRoute'
+import adminRoute from './routes/adminRoute'
 import dbConnection from './config/database';
 import errorHandler from './middleware/errorHandler';
 import session from "express-session";
-import IUserData from 'interface/interface';
 import cors from 'cors'
 import mongoSanitize from 'express-mongo-sanitize'
 dotenv.config();
@@ -29,17 +28,17 @@ app.use(cors(
   ))
   
   app.use(session({
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    saveUninitialized: true,
     secret: process.env.SECRET as string,
     
   }))
 
-  declare module "express-session" {
-    interface SessionData {
-        user: IUserData
-    }
-}
+//   declare module "express-session" {
+//     interface SessionData {
+//         user: IUserData
+//     }
+// }
   
   app.use('/api/v1/user',userRoute)
   app.use('/api/v1/admin',adminRoute)

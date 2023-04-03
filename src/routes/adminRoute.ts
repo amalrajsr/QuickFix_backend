@@ -1,10 +1,11 @@
 import { adminAuthorization } from "../middleware/authHandler";
 import { Router } from "express";
-import { adminLogin } from "../controller/admin_controller/authController";
+import { adminLogin } from "../controller/adminController/authController";
 import { jwtChecker } from "../utils/jwtChecker";
-import { fetchUsers,block_unblockUser } from "../controller/admin_controller/userController";
-import { addService ,fetchServices,deleteService,fetchSingleService,editService} from "../controller/admin_controller/serviceController";
-import { addLocation,fetchLocations,blockLocation,editLocation } from "../controller/admin_controller/locationController";
+import { fetchUsers,block_unblockUser } from "../controller/adminController/userController";
+import { addService ,fetchServices,deleteService,fetchSingleService,editService} from "../controller/adminController/serviceController";
+import { addLocation,fetchLocations,blockLocation,editLocation } from "../controller/adminController/locationController";
+import { fetchBookings } from "../controller/adminController/bookingController";
 import uploadCloudinary from "../utils/multer";
 const router=Router()
 
@@ -21,5 +22,8 @@ router.route('/services/:id').get(fetchSingleService).put(uploadCloudinary.field
 //location management
 router.route('/locations').get(fetchLocations).post(addLocation)
 router.route('/locations/:id').put(editLocation).patch(blockLocation)
+
+//booking management
+router.route('/bookings').get(fetchBookings)
 
 export default router

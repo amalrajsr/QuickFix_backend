@@ -19,4 +19,4 @@ const locationModel= new Schema<ILocation>({
 })
 
 
-export default model('location',locationModel)
+export default model<ILocation>('location',locationModel)

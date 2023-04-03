@@ -6,13 +6,12 @@ export const crudHelper = {
     data: any,
     filter?: object
   ): Promise<null | any> => {
-    
+
     if (filter) {
       const itemExists = await model.findOne(filter);
 
-      if (itemExists) {
-        throw new AppError(409, "data alreday exists");
-      }
+      if (itemExists)  throw new AppError(409, "data alreday exists");
+      
     }
     const collection = new model(data);
     const result = await collection.save();
@@ -23,9 +22,16 @@ export const crudHelper = {
     return false;
   },
 
-  fetchItems: async (collection: Model<any>): Promise<[] | any> => {
-    const data = await collection.find();
-    return data;
+  fetchItems: async (collection: Model<any>,filter:any={},aggregate?:boolean): Promise<[] | any> => {
+
+    if(!aggregate){
+      const data = await collection.find(filter);
+      return data;
+    }else{
+      const data= await collection.aggregate(filter)
+      return data
+    }
+   
   },
   fetchSingleItem: async (
     collection: Model<any>,
@@ -58,17 +64,22 @@ export const crudHelper = {
   editItem: async (
     collection: Model<any>,
     _id: string,
-    data: any,
-    filter: object
+    data: object,
+    filter?: object
   ): Promise<boolean> => {
-    const itemExists = await collection.findOne(filter);
 
-    if (itemExists) {
-      throw new AppError(409, "data alreday exists");
+    
+    if(filter){
+      const itemExists = await collection.findOne(filter);
+
+      if (itemExists) {
+        throw new AppError(409, "data alreday exists");
+      }
     }
+   
+
     let status: boolean;
     const updateStatus = await collection.updateOne({ _id }, { $set: data });
-
     updateStatus.modifiedCount ? (status = true) : (status = false);
     return status;
   },

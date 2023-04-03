@@ -5,7 +5,7 @@ dotenv.config();
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
  
-export const  sendVerificationToken=(phoneNumber:Number):Promise<boolean>=>{
+export const  sendVerificationToken=(phoneNumber:number):Promise<boolean>=>{
     return new Promise((resolve)=>{
         client.verify.
             v2.services(process.env.TWILIO_SERVICE_ID as string)

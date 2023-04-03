@@ -6,6 +6,7 @@ import { IBooking } from "../../interface/interface";
 
 export const addBooking =asyncHandler(async(req,res)=>{
 
+    
     const newDate=req.body.date.split('T')[0]
     const booking={...req.body,date:newDate}
     const result:false|IBooking= await crudHelper.addItem(bookingCollection,booking)
@@ -13,7 +14,10 @@ export const addBooking =asyncHandler(async(req,res)=>{
         throw Error('error occured while booking')
     }
     const status= await bookingHelper.addBooking(req.body.user,result._id)
-    console.log(status)
+
+    if(!status){
+        throw Error('error occured while updating user booking')
+    }
 
     res.json({
         success:true
