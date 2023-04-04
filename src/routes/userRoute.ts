@@ -3,7 +3,7 @@ import {register,verify_otp,user_login,verify_login_otp,resend_otp} from '../con
 import { jwtChecker } from "../utils/jwtChecker";
 import { fetchServices } from "../controller/adminController/serviceController";
 import { userAuthorization } from "../middleware/authHandler";
-import { addBooking } from "../controller/userController/bookingController";
+import { addBooking, viewBookings,cancelBooking } from "../controller/userController/bookingController";
 import { updateProfile,updateProfileImage } from "../controller/userController/profileController";
 import uploadCloudinary from "../utils/multer";
 
@@ -21,6 +21,7 @@ router.use(userAuthorization)
 
 //booking
 router.post('/bookings',addBooking)
+router.route('/bookings/:id').get(viewBookings).patch(cancelBooking)
 
 //profile
 router.route('/profile/:id').patch(updateProfile).put(uploadCloudinary.single('file'),updateProfileImage)

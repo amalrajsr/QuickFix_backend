@@ -3,7 +3,7 @@ import { Model } from "mongoose";
 export const crudHelper = {
   addItem: async (
     model: Model<any>,
-    data: any,
+    data: object,
     filter?: object
   ): Promise<null | any> => {
 
@@ -22,7 +22,7 @@ export const crudHelper = {
     return false;
   },
 
-  fetchItems: async (collection: Model<any>,filter:any={},aggregate?:boolean): Promise<[] | any> => {
+  fetchItems: async (collection: Model<any>,filter:any,aggregate?:boolean): Promise<[] | any> => {
 
     if(!aggregate){
       const data = await collection.find(filter);

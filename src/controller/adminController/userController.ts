@@ -9,7 +9,7 @@ const page:string|number= req.query?.page as string || 1
     res.json({
         success:true,
         users
-    }).status(200)      
+    })   
 })
 
 export const block_unblockUser=asyncHandler(async(req,res)=>{
