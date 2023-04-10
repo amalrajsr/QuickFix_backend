@@ -6,6 +6,7 @@ import { fetchUsers,block_unblockUser } from "../controller/adminController/user
 import { addService ,fetchServices,deleteService,fetchSingleService,editService} from "../controller/adminController/serviceController";
 import { addLocation,fetchLocations,blockLocation,editLocation } from "../controller/adminController/locationController";
 import { fetchBookings } from "../controller/adminController/bookingController";
+import {fetchExperts, addExpert,blockExpert } from "../controller/adminController/expertController";
 import uploadCloudinary from "../utils/multer";
 const router=Router()
 
@@ -26,4 +27,8 @@ router.route('/locations/:id').put(editLocation).patch(blockLocation)
 //booking management
 router.route('/bookings').get(fetchBookings)
 
+//expert management
+router.route('/experts').get(fetchExperts).post(addExpert)
+
+router.route('/experts/:id').patch(blockExpert)
 export default router

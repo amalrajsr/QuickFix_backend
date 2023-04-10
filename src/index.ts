@@ -2,6 +2,7 @@ import express from 'express'
 import dotenv from 'dotenv';
 import userRoute from './routes/userRoute'
 import adminRoute from './routes/adminRoute'
+import expertRoute from './routes/expertRoute'
 import dbConnection from './config/database';
 import errorHandler from './middleware/errorHandler';
 import session from "express-session";
@@ -42,9 +43,10 @@ app.use(cors(
   
   app.use('/api/v1/user',userRoute)
   app.use('/api/v1/admin',adminRoute)
+  app.use('/api/v1/expert',expertRoute)
    
 // golbal error handler
-app.use('*',errorHandler)
+app.use(errorHandler)
 
 // connecting to database
 dbConnection()

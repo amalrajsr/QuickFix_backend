@@ -3,11 +3,11 @@ import { crudHelper } from "../../helper/crudHelper";
 import locationCollection from "../../model/locationModel";
 export const addLocation = asyncHandler(async (req, res) => {
 
-  const filter={pincode:req.body.pincode}
- 
+  const filter={$or:[{pincode:req.body.pincode},{place:req.body.place}]}
+  
   const result = await crudHelper.addItem(
     locationCollection,
-    req.body,
+    {...req.body,place:req.body.place.toUpperCase()},
     filter
   );
 

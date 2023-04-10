@@ -23,7 +23,6 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
 export const updateProfileImage = asyncHandler(async (req, res) => {
 
-  console.log(req.params.id)
   if (!req.file) {
     throw Error("image upload failed");
   }

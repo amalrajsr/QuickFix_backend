@@ -2,20 +2,43 @@ import mongoose  from "mongoose";
 import { ObjectId } from "bson";
 import { Request } from "express";
 
-export default interface IUserData{
-    fullname?:string,
-    mobile:number
-}
-
 export interface IRequest extends Request {
     files?: any;
   }
 
+// admin
   export interface IAdmin{
     name:string,
     password:string
 }
 
+//user 
+export  interface IUser{
+  _id:ObjectId,
+  name:string,
+  avatar?:string,
+  mobile:number,
+  address?:IAddress,
+  isBlocked:boolean,
+  booking?:mongoose.Types.Array<ObjectId>,
+
+}
+
+//expert
+export interface IExpert{
+  _id?:ObjectId
+  name:string,
+  email:string
+  mobile:number,
+  password:string,
+  service:ObjectId,
+  city:string,
+  isBlocked:boolean,
+  status:boolean,
+  works?:mongoose.Types.Array<ObjectId>,
+
+
+}
   
 export interface ILocation{
 
@@ -48,20 +71,7 @@ export interface ILocation{
     zipCode:number
 }
 
-//user 
-export  interface IUser{
-    _id:ObjectId,
-    name:string,
-    avatar?:string,
-    mobile:number,
-    address?:IAddress,
-    isBlocked:boolean,
-    isExpert:boolean,
-    booking?:mongoose.Types.Array<ObjectId>,
-    expertCategory?:string,
-    expertRating?:number,  
-    expertWorks?:mongoose.Types.Array<ObjectId>
-}
+
 
 
 // booking 

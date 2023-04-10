@@ -1,5 +1,5 @@
 import { NextFunction, Request,Response } from "express"
-import { TokenExpiredError } from "jsonwebtoken";
+import { JsonWebTokenError, TokenExpiredError } from "jsonwebtoken";
 import AppError from "../utils/error"
 const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
     
@@ -9,7 +9,7 @@ const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
 
         res.status(err.statusCode).json({error:{success:false,message:err.message}})
 
-    }else if(err instanceof TokenExpiredError){
+    }else if(err instanceof TokenExpiredError || err instanceof JsonWebTokenError){
 
         res.status(401).json({error:{success:false,tokenExpired:true,message:'token expired'}})
     }
@@ -18,6 +18,7 @@ const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)=>{
     }
 
 }  
+
 
 
 

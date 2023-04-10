@@ -29,21 +29,7 @@ const userSchema=new mongoose.Schema<IUser>({
     isBlocked:{
         type:Boolean,
         default:false
-    }, 
-    isExpert:{
-        type:Boolean,
-        default:false
-    },
-    expertCategory:{
-        type:String
-    },
-    expertRating:{
-        type:Number
-    },
-    expertWorks:[{
-     type:mongoose.Types.ObjectId,
-     ref:'work'
-}]
+    }
 
 })
 

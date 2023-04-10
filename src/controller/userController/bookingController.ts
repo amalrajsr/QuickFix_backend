@@ -41,7 +41,7 @@ export const cancelBooking = asyncHandler(async (req, res) => {
  
   const booking = await crudHelper.fetchSingleItem(
     bookingCollection,
-    req.params.id
+    {_id:  req.params.id}
   );
   if (!booking) {
     throw new Error("bad request");

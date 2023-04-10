@@ -23,7 +23,7 @@ export const serviceHelpers = {
 
     },
 
-    fetchServices: async (): Promise<IService[] | {}> => {
+    fetchServices: async (): Promise<IService[] |object> => {
 
         const services = await serviceCollection.find()
 
@@ -42,7 +42,7 @@ export const serviceHelpers = {
        
         let status:boolean
         const updateStatus= await serviceCollection.updateOne({_id},{$set:data})
-        console.log(data);
+
         
         updateStatus.modifiedCount ? status=true:status=false    
         

@@ -20,7 +20,6 @@ export const jwtChecker = asyncHandler(async (req, res) => {
             throw new AppError(400,'bad request')
 
     }
-    // const collection=req.query.role
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")

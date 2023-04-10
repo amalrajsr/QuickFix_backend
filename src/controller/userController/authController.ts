@@ -72,7 +72,6 @@ export const resend_otp = asyncHandler(async (req, res) => {
   if (req.body) {
     const { mobile } = req.body.user;
     const otp_status = await sendVerificationToken(mobile);
-    //    let otp_status = true
     if (otp_status) {
       res.status(200).json({
         success: true,
@@ -93,6 +92,8 @@ export const user_login = asyncHandler(async (req, res) => {
       throw new AppError(401, "your account has been blocked");
     } else {
       const otp_status = await sendVerificationToken(mobile);
+      // const otp_status = true
+
       if (otp_status) {
         res
           .json({
@@ -110,6 +111,7 @@ export const verify_login_otp = asyncHandler(async (req, res) => {
   const { mobile, otp }: { mobile: number; otp: string } = req.body;
 
   const otp_status = await checkVerificationToken(otp, mobile);
+  // const otp_status=true
   if (otp_status) {
     const user = await authHelpers.findUserByMobile(mobile);
     if (!user) throw new AppError(400, "something went wrong");

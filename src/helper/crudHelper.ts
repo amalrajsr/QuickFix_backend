@@ -22,10 +22,10 @@ export const crudHelper = {
     return false;
   },
 
-  fetchItems: async (collection: Model<any>,filter:any,aggregate?:boolean): Promise<[] | any> => {
+  fetchItems: async (collection: Model<any>,filter:any,aggregate?:boolean): Promise<any> => {
 
     if(!aggregate){
-      const data = await collection.find(filter);
+      const data = await collection.find(filter).sort({_id:-1})
       return data;
     }else{
       const data= await collection.aggregate(filter)
@@ -35,30 +35,34 @@ export const crudHelper = {
   },
   fetchSingleItem: async (
     collection: Model<any>,
-    _id: string
+    filter: any,
+    aggregate?:boolean
   ): Promise<any> => {
-    const data = await collection.findById(_id);
+    if(!aggregate){
+      const data = await collection.findOne(filter);
+      return data;
+    }else{
+      const data= await collection.aggregate(filter)
+      return data
+    }
+   
 
-    return data;
   },
+  
   block_UnBlock_Items: async (
     collection: Model<any>,
     _id: string
   ): Promise<boolean> => {
     let status = true;
 
-    const currentStatus = await collection.findOne({ _id });
-    if (currentStatus) {
+    
       const blockStatus = await collection.updateOne(
         { _id },
-        { $set: { isBlocked: !currentStatus.isBlocked } }
+        [{ $set: { isBlocked: { $not:'$isBlocked' } } }]
       );
 
-      blockStatus.modifiedCount ? (status = true) : (status = false);
-    } else {
-      status = false;
-    }
-
+      blockStatus.modifiedCount ? status = true : status = false;
+    
     return status;
   },
   editItem: async (
@@ -68,7 +72,7 @@ export const crudHelper = {
     filter?: object
   ): Promise<boolean> => {
 
-    
+  
     if(filter){
       const itemExists = await collection.findOne(filter);
 
