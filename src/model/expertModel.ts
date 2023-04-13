@@ -24,6 +24,7 @@ const expertSchema=new Schema<IExpert>({
     },
     service:{
         type:Types.ObjectId,
+        ref:'service',
         required:true
     },
     city:{
@@ -32,7 +33,7 @@ const expertSchema=new Schema<IExpert>({
     },
     status:{
         type:Boolean,
-         default:false
+         default:true
     },
     isBlocked:{
         type:Boolean,

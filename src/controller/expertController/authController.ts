@@ -4,14 +4,15 @@ import { crudHelper } from "../../helper/crudHelper";
 import { createToken } from "../../utils/tokenGenerator";
 import AppError from "../../utils/error";
 import bcrypt from "bcrypt";
+import { IExpert } from "../../interface/interface";
 
 export const expertLogin = asyncHandler(async (req, res) => {
-  const result = await crudHelper.fetchSingleItem(expertCollection,[{$match:{email:req.body.email}},{$lookup:{from:'services',localField:'service',foreignField:'_id', as:'serviceDetails'}}],true);
+  const result = await crudHelper.fetchSingleItem(expertCollection,[{$match:{email:req.body.email}},{$lookup:{from:'services',localField:'service',foreignField:'_id', as:'serviceDetails'}}],true) 
 
   if (!result) {
     throw new AppError(400, "invalid email or passsword");
   }
-  if (result.isBlocked) {
+  if (result[0].isBlocked) {
     throw new AppError(401, "your account has been blocked by admin");
   }
   const passwordMatch = await bcrypt.compare(
@@ -32,7 +33,7 @@ export const expertLogin = asyncHandler(async (req, res) => {
     isBlocked: result[0].isBlocked,
     works:result[0].works
   };
-  const token = createToken(result._id);
+  const token = createToken(result[0]._id);
   res.json({
     success: true,
     expert,

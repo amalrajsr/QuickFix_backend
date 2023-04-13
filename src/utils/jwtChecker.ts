@@ -2,12 +2,14 @@ import asyncHandler from "express-async-handler"
 import AppError from "../utils/error";
 import adminCollection   from "../model/adminModel";
 import userCollection from '../model/userModel'
+import expertCollection from "../model/expertModel";
 import {IAdmin ,IUser} from '../interface/interface'
 import jwt from "jsonwebtoken"
 import { Model } from "mongoose";
 
 export const jwtChecker = asyncHandler(async (req, res) => {
 //IUser|IAdmin
+
     let collection:Model<any>
     switch(req.query.role){
         case('user'):
@@ -16,10 +18,14 @@ export const jwtChecker = asyncHandler(async (req, res) => {
         case('admin'):
         collection=adminCollection
         break;
+        case('expert'):
+        collection=expertCollection
+        break;
         default:
             throw new AppError(400,'bad request')
 
     }
+
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer")

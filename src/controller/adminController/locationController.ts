@@ -1,11 +1,12 @@
 import asyncHandler from "express-async-handler";
 import { crudHelper } from "../../helper/crudHelper";
 import locationCollection from "../../model/locationModel";
+import { ILocation } from "../../interface/interface";
 export const addLocation = asyncHandler(async (req, res) => {
 
   const filter={$or:[{pincode:req.body.pincode},{place:req.body.place}]}
   
-  const result = await crudHelper.addItem(
+  const result = await crudHelper.addItem<ILocation>(
     locationCollection,
     {...req.body,place:req.body.place.toUpperCase()},
     filter

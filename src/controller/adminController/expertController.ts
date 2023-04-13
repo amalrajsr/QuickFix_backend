@@ -23,9 +23,10 @@ export const addExpert = asyncHandler(async (req, res) => {
   });
 
   if (!result) {
-    res.json({
-      success: false,
-    });
+    // res.json({
+    //   success: false,
+    // });
+    throw Error('Failed to add Expert')
   }
 
   const mailOptions = {
@@ -37,7 +38,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            </h4><h4> you can now login using this credentials </h4> Email: ${result.email} <br>Password:${password} 
            <br> Login here: ${'http://localhost:3000/expert/login'}` ,
   };
-   transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions);
 
   res.json({
     success: true,

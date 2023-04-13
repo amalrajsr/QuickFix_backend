@@ -6,6 +6,7 @@ import AppError from "../../utils/error";
 
 export const updateProfile = asyncHandler(async (req, res) => {
 
+
  
     if(!req.body || !req.params){
         throw new AppError(400,'bad request')
@@ -16,6 +17,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
     req.params.id,
     req.body
   );
+ 
   res.json({
     success: result,
   });

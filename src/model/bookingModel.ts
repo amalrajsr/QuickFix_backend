@@ -38,6 +38,10 @@ const bookingSchema= new Schema<IBooking>({
         type:String,
         default:'pending'
      },
+     payment:{
+      type:Boolean,
+      default:false
+     }
 
 })
 
