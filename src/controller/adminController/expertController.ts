@@ -22,12 +22,8 @@ export const addExpert = asyncHandler(async (req, res) => {
     $or: [{ mobile: req.body.mobile }, { email: req.body.email }],
   });
 
-  if (!result) {
-    // res.json({
-    //   success: false,
-    // });
-    throw Error('Failed to add Expert')
-  }
+  if (!result) throw Error('Failed to add Expert')
+  
 
   const mailOptions = {
     from: process.env.AUTH_USER,

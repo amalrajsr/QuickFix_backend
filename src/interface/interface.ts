@@ -55,6 +55,7 @@ export interface IService {
   repairCharge1Hour: number;
   repairChargeLatelyHours: number;
   isDeleted?: boolean;
+  bookings:number
 }
 
 // user address

@@ -35,6 +35,10 @@ const serviceSchema= new Schema<IService>({
     isDeleted:{
         type:Boolean,
         default:false
+    },
+    bookings:{
+        type:Number,
+        default:0
     }
 
 })

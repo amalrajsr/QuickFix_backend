@@ -20,8 +20,8 @@ export const register = asyncHandler(async (req, res) => {
     throw new AppError(409, "user already exists");
   } else {
    
-     const otp_status = await sendVerificationToken(mobile);
-    //  const otp_status = true
+      const otp_status = await sendVerificationToken(mobile);
+      // const otp_status = true
     if (otp_status) {
       res.json({
         success: true,
@@ -68,31 +68,33 @@ export const verify_otp = asyncHandler(async (req, res) => {
 
 });
 
-export const resend_otp = asyncHandler(async (req, res) => {
+export const resendOtp = asyncHandler(async (req, res) => {
+
   if (req.body) {
-    const { mobile } = req.body.user;
-    const otp_status = await sendVerificationToken(mobile);
+    const { mobile } = req.body;
+     const otp_status = await sendVerificationToken(mobile);
+  //  const otp_status=true
     if (otp_status) {
       res.status(200).json({
         success: true,
       });
     } else {
-      throw new AppError(500, " Something went wrong");
+      throw new Error("Something went wrong");
     }
   } else {
-    throw new AppError(500, "Something went wrong");
+    throw new Error("Something went wrong");
   }
 });
 
-export const user_login = asyncHandler(async (req, res) => {
+export const userLogin = asyncHandler(async (req, res) => {
   const mobile: number = req.body.mobile;
   const userExist = await authHelpers.findUserByMobile(mobile);
   if (userExist) {
     if (userExist.isBlocked) {
       throw new AppError(401, "your account has been blocked");
     } else {
-      const otp_status = await sendVerificationToken(mobile);
-      // const otp_status = true
+       const otp_status = await sendVerificationToken(mobile);
+       //const otp_status = true
 
       if (otp_status) {
         res
@@ -107,7 +109,7 @@ export const user_login = asyncHandler(async (req, res) => {
   }
 });
 
-export const verify_login_otp = asyncHandler(async (req, res) => {
+export const verifyLoginOtp = asyncHandler(async (req, res) => {
   const { mobile, otp }: { mobile: number; otp: string } = req.body;
 
   const otp_status = await checkVerificationToken(otp, mobile);

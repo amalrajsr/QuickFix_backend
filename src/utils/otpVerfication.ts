@@ -1,11 +1,14 @@
 import twilio from 'twilio';
 import dotenv from 'dotenv';
+import { rejects } from 'assert';
+import AppError from './error';
 dotenv.config();
 
 
 const client = twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
  
 export const  sendVerificationToken=(phoneNumber:number):Promise<boolean>=>{
+
     return new Promise((resolve)=>{
         client.verify.
             v2.services(process.env.TWILIO_SERVICE_ID as string)
@@ -18,15 +21,18 @@ export const  sendVerificationToken=(phoneNumber:number):Promise<boolean>=>{
                 resolve(true)
 
             }).catch((error) => {
-                console.log(error);
-                
-                resolve(false)
+               resolve(false)
+               
 
             })
     })
+
+
 }
 
 export const checkVerificationToken=(otp:string,phoneNumber:number):Promise<boolean>=>{
+
+    try{
     return new Promise((resolve)=>{
         client.verify.v2
             .services(process.env.TWILIO_SERVICE_ID as string)
@@ -45,4 +51,7 @@ export const checkVerificationToken=(otp:string,phoneNumber:number):Promise<bool
                 resolve(false)
             })
     })
+}catch(error){
+    throw new Error()
+}
 }

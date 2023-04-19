@@ -19,7 +19,7 @@ export const addService = asyncHandler(
       if(i<1){
     return await  cloudinary.uploader.upload(file.path, {
         transformation: [
-          { width: 450, height: 400, gravity: "face", crop: "fill" },
+          { width: 500, height: 450, gravity: "face", crop: "fill" },
         ],
       });
     }else{

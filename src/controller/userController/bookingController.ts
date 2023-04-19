@@ -7,6 +7,7 @@ import { ObjectId } from "bson";
 import AppError from "../../utils/error";
 import { instance } from "../../config/razorpay";
 import crypto from "crypto";
+import { serviceHelper } from "../../helper/service/serviceHelper";
 export const addBooking = asyncHandler(async (req, res) => {
   const newDate = req.body.date;
   const booking = { ...req.body, date: newDate };
@@ -95,7 +96,8 @@ export const paymentSuccess = asyncHandler(async (req, res) => {
     razorpayPaymentId,
     razorpayOrderId,
     razorpaySignature,
-    bookingId
+    bookingId,
+    service
   } = req.body;
 
   const signature = crypto
@@ -108,9 +110,13 @@ export const paymentSuccess = asyncHandler(async (req, res) => {
   }
   const result = await crudHelper.editItem(bookingCollection,bookingId,{payment:true,status:'completed'})
   if(!result) throw new Error('booking collection updation failed')
-  console.log(result)
+
+   const serviceResult= await serviceHelper.updateBookingCount(service)
+   
+
   res.json({
     success: true,
+    serviceUpdated:serviceResult
   
   });
 

@@ -1,7 +1,6 @@
 import { ObjectId } from "bson";
 import userColletion from "../../model/userModel";
 
-
 export const bookingHelper={
 
     addBooking:async (userId:string,bookingId:ObjectId):Promise<boolean>=>{

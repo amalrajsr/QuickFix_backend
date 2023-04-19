@@ -6,18 +6,22 @@ export const crudHelper = {
     data: object,
     filter?: object
   ): Promise<T | false> {
-    if (filter) {
-      const itemExists = await model.findOne(filter);
+    try {
+      if (filter) {
+        const itemExists = await model.findOne(filter);
 
-      if (itemExists) throw new AppError(409, "data alreday exists");
-    }
-    const collection = new model(data);
-    const result = await collection.save();
-    if (result) {
-      return result;
-    }
+        if (itemExists) throw new AppError(409, "data alreday exists");
+      }
+      const collection = new model(data);
+      const result = await collection.save();
+      if (result) {
+        return result;
+      }
 
-    return false;
+      return false;
+    } catch (error) {
+      throw new Error();
+    }
   },
 
   async fetchItems<T>(
@@ -25,12 +29,16 @@ export const crudHelper = {
     filter: any,
     aggregate?: boolean
   ): Promise<T[]> {
-    if (!aggregate) {
-      const data = await collection.find(filter).sort({ _id: -1 });
-      return data;
-    } else {
-      const data = await collection.aggregate(filter);
-      return data;
+    try {
+      if (!aggregate) {
+        const data = await collection.find(filter).sort({ _id: -1 });
+        return data;
+      } else {
+        const data = await collection.aggregate(filter);
+        return data;
+      }
+    } catch (error) {
+      throw new Error();
     }
   },
   async fetchSingleItem<T>(
@@ -38,14 +46,18 @@ export const crudHelper = {
     filter: any,
     aggregate?: boolean
   ): Promise<any> {
-    if (!aggregate) {
-      const data = await collection.findOne(filter);
+    try {
+      if (!aggregate) {
+        const data = await collection.findOne(filter);
 
-      return data;
-    } else {
-      const data = await collection.aggregate(filter);
-      if (data.length < 1) return null;
-      return data;
+        return data;
+      } else {
+        const data = await collection.aggregate(filter);
+        // if (data.length < 1) return null;
+        return data;
+      }
+    } catch (error) {
+      throw new Error();
     }
   },
 
@@ -53,20 +65,18 @@ export const crudHelper = {
     collection: Model<T>,
     _id: string
   ): Promise<boolean> {
-
-    try{
+    try {
       let status = true;
       const blockStatus = await collection.updateOne({ _id }, [
         { $set: { isBlocked: { $not: "$isBlocked" } } },
       ]);
-  
+
       blockStatus.modifiedCount ? (status = true) : (status = false);
-  
+
       return status;
-    }catch(error){
-      throw new Error()
+    } catch (error) {
+      throw new Error();
     }
-  
   },
 
   async editItem<T>(
@@ -75,17 +85,21 @@ export const crudHelper = {
     data: object,
     filter?: object
   ): Promise<boolean> {
-    if (filter) {
-      const itemExists = await collection.findOne(filter);
+    try {
+      if (filter) {
+        const itemExists = await collection.findOne(filter);
 
-      if (itemExists) {
-        throw new AppError(409, "data alreday exists");
+        if (itemExists) {
+          throw new AppError(409, "data alreday exists");
+        }
       }
-    }
 
-    let status: boolean;
-    const updateStatus = await collection.updateOne({ _id }, { $set: data });
-    updateStatus.modifiedCount ? (status = true) : (status = false);
-    return status;
+      let status: boolean;
+      const updateStatus = await collection.updateOne({ _id }, { $set: data });
+      updateStatus.modifiedCount ? (status = true) : (status = false);
+      return status;
+    } catch (error) {
+      throw new Error();
+    }
   },
 };
