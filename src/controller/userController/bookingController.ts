@@ -31,8 +31,13 @@ export const addBooking = asyncHandler(async (req, res) => {
 
 export const viewBookings = asyncHandler(async (req, res) => {
   let success;
-  const filter = { user: new ObjectId(req.params.id) };
-  const bookings = await crudHelper.fetchItems(bookingCollection, filter);
+  const filter = [{$match:{user:new ObjectId( "642ad81c347785090baca8fc")}},{$lookup: {
+    from: "experts",
+    localField: "expert",
+    foreignField: "_id",
+    as: "expert",
+  }}]
+  const bookings = await crudHelper.fetchItems(bookingCollection, filter,true);
   bookings.length > 0 ? (success = true) : (success = false);
   res.json({
     success,

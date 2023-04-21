@@ -22,7 +22,7 @@ app.use(
 
 app.use(cors(
   {
-      origin:['http://localhost:3000'],
+      origin:[process.env.ORIGIN_URL as string],
       methods:['GET','POST','PUT','PATCH','DELETE'],
       credentials:true
   }

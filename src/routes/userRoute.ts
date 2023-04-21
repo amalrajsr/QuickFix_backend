@@ -6,6 +6,7 @@ import { fetchServices } from "../controller/adminController/serviceController";
 import { addBooking, viewBookings,cancelBooking ,payBooking,paymentSuccess} from "../controller/userController/bookingController";
 import { updateProfile,updateProfileImage } from "../controller/userController/profileController";
 import { fetchExpertsbyService,fetchTrendingService } from "../controller/userController/serviceController";
+import { addReview,fetchSingleReview,updateReview,deleteReview,fetchReviewsByService } from "../controller/userController/reviewController";
 import uploadCloudinary from "../utils/multer";
 
 const router=Router()
@@ -20,7 +21,7 @@ router.get('/services',fetchServices)
 router.get('/services/:id&:name',fetchExpertsbyService)
 router.get('/trending-services',fetchTrendingService)
 
-//  router.use(userAuthorization)
+router.use(userAuthorization)
 //profile
 router.route('/profile/:id').patch(updateProfile).put(uploadCloudinary.single('file'),updateProfileImage)
 
@@ -32,5 +33,9 @@ router.route('/bookings/:id').get(viewBookings).patch(cancelBooking)
 router.post('/payment',payBooking)
 router.post('/payment/success',paymentSuccess)
 
+//review
+router.route('/reviews').post(addReview).get(fetchReviewsByService)
+router.route('/reviews/:id').get(fetchSingleReview).patch(updateReview).delete(deleteReview)
 
 export default router
+

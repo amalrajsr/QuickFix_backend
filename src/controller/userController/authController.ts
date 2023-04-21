@@ -117,6 +117,7 @@ export const verifyLoginOtp = asyncHandler(async (req, res) => {
   if (otp_status) {
     const user = await authHelpers.findUserByMobile(mobile);
     if (!user) throw new AppError(400, "something went wrong");
+    //creating jwt
     const token = createToken(user._id);
     res.json({
       success: true,

@@ -3,7 +3,6 @@ import AppError from "../utils/error";
 import adminCollection   from "../model/adminModel";
 import userCollection from '../model/userModel'
 import expertCollection from "../model/expertModel";
-import {IAdmin ,IUser} from '../interface/interface'
 import jwt from "jsonwebtoken"
 import { Model } from "mongoose";
 

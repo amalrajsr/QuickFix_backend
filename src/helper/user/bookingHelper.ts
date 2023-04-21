@@ -10,4 +10,5 @@ export const bookingHelper={
         result.modifiedCount ? (status = true) : (status = false);
         return status;
     }
+    
 }

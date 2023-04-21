@@ -38,6 +38,7 @@ export interface IExpert {
   works?: mongoose.Types.Array<ObjectId>;
 }
 
+//location
 export interface ILocation {
   place: string;
   pincode: number;
@@ -85,3 +86,12 @@ export interface IBooking {
 }
 
 
+//review
+export interface IReview{
+  _id?:ObjectId
+  user:ObjectId
+  service:ObjectId
+  booking:ObjectId
+  date:Date
+  review:string
+}
