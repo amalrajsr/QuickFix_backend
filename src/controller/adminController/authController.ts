@@ -8,7 +8,7 @@ export const adminLogin = asyncHandler(async(req,res)=>{
     const {name,password}:{name:string,password:string}=req.body   
     const adminData= await authHelpers.findAdmin(name,password)
      
-    if(adminData){
+    if(adminData?._id){
 
         const token=createToken(adminData._id)
         

@@ -56,7 +56,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            } <br>Password:${password} 
            <br> Login here: ${"http://localhost:3000/expert/login"}`,
   };
- transporter.sendMail(mailOptions);
+  // transporter.sendMail(mailOptions);
 
 
   res.json({

@@ -32,10 +32,6 @@ const expertSchema=new Schema<IExpert>({
         ref:'location',
         required:true
     },
-    status:{
-        type:Boolean,
-         default:true
-    },
     isBlocked:{
         type:Boolean,
          default:false

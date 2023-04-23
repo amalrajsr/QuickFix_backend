@@ -12,7 +12,6 @@ export const fetchReviews = asyncHandler(async (req, res) => {
 
 export const deleteReview = asyncHandler(async (req, res) => {
 
-    console.log(req.params.id)
   const result = await reviewHelper.deleteReview(req.params.id);
   if (!result) throw new Error("review deletion failed");
   res.json({

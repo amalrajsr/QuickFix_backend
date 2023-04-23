@@ -87,7 +87,7 @@ export const forgotPasswordOtpVerify = asyncHandler(async (req, res) => {
 
 export const resendOtp = asyncHandler(async (req, res) => {
   if (!req.body) throw new Error("invalid request");
-  console.log(req.body);
+
   const { mobile } = req.body;
   const otp_status = await sendVerificationToken(mobile);
   //  const otp_status=true

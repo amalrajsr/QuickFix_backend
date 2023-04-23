@@ -8,6 +8,7 @@ export interface IRequest extends Request {
 
 // admin
 export interface IAdmin {
+  _id?:ObjectId
   name: string;
   password: string;
 }
@@ -34,7 +35,6 @@ export interface IExpert {
   serviceDetails?:IService[]
   city: ObjectId;
   isBlocked: boolean;
-  status: boolean;
   works?: mongoose.Types.Array<ObjectId>;
 }
 

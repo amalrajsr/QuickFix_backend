@@ -10,7 +10,6 @@ export const serviceHelper = {
         { $inc: { bookings: 1 } }
       );
       updateStatus.modifiedCount ? (status = true) : (status = false);
-      console.log(updateStatus)
       return status;
     } catch (error) {
       throw new Error();

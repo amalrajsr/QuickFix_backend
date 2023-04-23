@@ -6,7 +6,7 @@ import { adminLogin } from "../controller/adminController/authController";
 import { fetchUsers,block_unblockUser } from "../controller/adminController/userController";
 import { addService ,fetchServices,deleteService,fetchSingleService,editService} from "../controller/adminController/serviceController";
 import { addLocation,fetchLocations,blockLocation,editLocation } from "../controller/adminController/locationController";
-import { fetchBookings ,assignWorker} from "../controller/adminController/bookingController";
+import { fetchBookings ,assignExpert, changeExpert} from "../controller/adminController/bookingController";
 import {fetchExperts, addExpert,blockExpert } from "../controller/adminController/expertController";
 import { deleteReview, fetchReviews } from "../controller/adminController/reviewController";
 import { getCount, getTotals } from "../controller/adminController/dashboardController";
@@ -29,7 +29,7 @@ router.route('/locations/:id').put(editLocation).patch(blockLocation)
 
 //booking management
 router.route('/bookings').get(fetchBookings)
-router.route('/bookings/:id').patch(assignWorker)
+router.route('/bookings/:id').patch(assignExpert).put(changeExpert)
 
 //expert management
 router.route('/experts').get(fetchExperts).post(addExpert)
