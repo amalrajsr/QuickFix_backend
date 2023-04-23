@@ -11,7 +11,6 @@ import { serviceHelper } from "../../helper/service/serviceHelper";
 export const addBooking = asyncHandler(async (req, res) => {
   const newDate = req.body.date;
   const booking = { ...req.body, date: newDate };
-  console.log(booking)
   const result = await crudHelper.addItem(
     bookingCollection,
     booking
@@ -31,8 +30,9 @@ export const addBooking = asyncHandler(async (req, res) => {
 });
 
 export const viewBookings = asyncHandler(async (req, res) => {
+  
   let success;
-  const filter = [{$match:{user:new ObjectId( "642ad81c347785090baca8fc")}},{$lookup: {
+  const filter = [{$match:{user:new ObjectId( req.params.id)}},{$lookup: {
     from: "experts",
     localField: "expert",
     foreignField: "_id",
@@ -45,6 +45,7 @@ export const viewBookings = asyncHandler(async (req, res) => {
     bookings,
   });
 });
+
 
 export const cancelBooking = asyncHandler(async (req, res) => {
   const booking = await crudHelper.fetchSingleItem(bookingCollection, {
