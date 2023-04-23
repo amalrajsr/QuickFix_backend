@@ -28,7 +28,8 @@ const expertSchema=new Schema<IExpert>({
         required:true
     },
     city:{
-        type:String,
+        type:Types.ObjectId,
+        ref:'location',
         required:true
     },
     status:{

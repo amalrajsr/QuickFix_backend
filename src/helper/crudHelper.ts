@@ -6,7 +6,7 @@ export const crudHelper = {
     data: object,
     filter?: object
   ): Promise<T | false> {
-    try {
+    // try {
       if (filter) {
         const itemExists = await model.findOne(filter);
 
@@ -14,14 +14,16 @@ export const crudHelper = {
       }
       const collection = new model(data);
       const result = await collection.save();
+      
       if (result) {
         return result;
       }
 
       return false;
-    } catch (error) {
-      throw new Error();
-    }
+    // } catch (error) {
+      
+    //   throw new Error();
+    // }
   },
 
   async fetchItems<T>(
@@ -85,7 +87,7 @@ export const crudHelper = {
     data: object,
     filter?: object
   ): Promise<boolean> {
-    try {
+    // try {
       if (filter) {
         const itemExists = await collection.findOne(filter);
 
@@ -98,9 +100,9 @@ export const crudHelper = {
       const updateStatus = await collection.updateOne({ _id }, { $set: data });
       updateStatus.modifiedCount ? (status = true) : (status = false);
       return status;
-    } catch (error) {
-      throw new Error();
-    }
+    // } catch (error) {
+    //   throw new Error();
+    // }
   },
 
   

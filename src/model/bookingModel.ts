@@ -8,6 +8,14 @@ const bookingSchema= new Schema<IBooking>({
         type:Types.ObjectId,
         required:[true,'user is required']
      },
+     address:{
+      fullname: String,
+      mobile: String,
+      house:String,
+      landmark: String,
+      street: String,
+      zipcode: Number
+     },
      service:{
         type:String,
         required:[true,'service is required']

@@ -32,7 +32,7 @@ export interface IExpert {
   password: string;
   service: ObjectId ;
   serviceDetails?:IService[]
-  city: string;
+  city: ObjectId;
   isBlocked: boolean;
   status: boolean;
   works?: mongoose.Types.Array<ObjectId>;
@@ -61,12 +61,12 @@ export interface IService {
 
 // user address
 export interface IAddress {
-  name: string;
+  fullname: string;
   mobile: string;
+  house:string,
   street: string;
   landmark: string;
-  address: string;
-  zipCode: number;
+  zipcode: number;
 }
 
 // booking
@@ -95,3 +95,5 @@ export interface IReview{
   date:Date
   review:string
 }
+
+

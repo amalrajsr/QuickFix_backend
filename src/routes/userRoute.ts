@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { userAuthorization } from "../middleware/authHandler";
+import { authorization } from "../middleware/authHandler";
 import { jwtChecker } from "../utils/jwtChecker";
 import {register,verify_otp,userLogin,verifyLoginOtp,resendOtp} from '../controller/userController/authController'
 import { fetchServices } from "../controller/adminController/serviceController";
@@ -20,8 +20,8 @@ router.post('/verify-login-otp',verifyLoginOtp)
 router.get('/services',fetchServices)
 router.get('/services/:id&:name',fetchExpertsbyService)
 router.get('/trending-services',fetchTrendingService)
-
-router.use(userAuthorization)
+router.get('/reviews',fetchReviewsByService)
+router.use(authorization)
 //profile
 router.route('/profile/:id').patch(updateProfile).put(uploadCloudinary.single('file'),updateProfileImage)
 
@@ -34,7 +34,7 @@ router.post('/payment',payBooking)
 router.post('/payment/success',paymentSuccess)
 
 //review
-router.route('/reviews').post(addReview).get(fetchReviewsByService)
+router.post('/reviews',addReview)
 router.route('/reviews/:id').get(fetchSingleReview).patch(updateReview).delete(deleteReview)
 
 export default router

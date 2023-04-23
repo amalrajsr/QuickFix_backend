@@ -8,6 +8,7 @@ import errorHandler from './middleware/errorHandler';
 import session from "express-session";
 import cors from 'cors'
 import mongoSanitize from 'express-mongo-sanitize'
+
 dotenv.config();
 
 const app = express();

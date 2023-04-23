@@ -11,7 +11,8 @@ import { serviceHelper } from "../../helper/service/serviceHelper";
 export const addBooking = asyncHandler(async (req, res) => {
   const newDate = req.body.date;
   const booking = { ...req.body, date: newDate };
-  const result: false | IBooking = await crudHelper.addItem(
+  console.log(booking)
+  const result = await crudHelper.addItem(
     bookingCollection,
     booking
   );
