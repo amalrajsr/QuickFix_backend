@@ -34,9 +34,6 @@ export const register = asyncHandler(async (req, res) => {
 
 export const verify_otp = asyncHandler(async (req, res) => {
 
- 
-
- 
     const { name, mobile,otp } = req.body;
      if(!name || !mobile || !otp){
       throw new AppError(400,'bad request')

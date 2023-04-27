@@ -22,6 +22,7 @@ export const addLocation = asyncHandler(async (req, res) => {
 });
 
 export const fetchLocations = asyncHandler(async (req, res) => {
+  
   const result = await crudHelper.fetchItems(locationCollection, {});
 
   res.json({
@@ -42,6 +43,7 @@ export const blockLocation = asyncHandler(async (req, res) => {
 });
 
 export const editLocation = asyncHandler(async (req, res) => {
+  
   const city: string = req.body.place.toUpperCase();
   const filter = { place: city, pincode: req.body.pincode };
   const result = await crudHelper.editItem(

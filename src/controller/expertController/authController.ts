@@ -22,10 +22,19 @@ export const expertLogin = asyncHandler(async (req, res) => {
           as: "serviceDetails",
         },
       },
+      {
+        $lookup: {
+          from: "locations",
+          localField: "city",
+          foreignField: "_id",
+          as: "locationDetails",
+        },
+      },
     ],
     true
   );
 
+  console.log(result)
   if (!result) {
     throw new AppError(400, "invalid email or passsword");
   }
@@ -45,7 +54,7 @@ export const expertLogin = asyncHandler(async (req, res) => {
     email: result[0].email,
     mobile: result[0].mobile,
     service: result[0].serviceDetails[0].service,
-    city: result[0].city,
+    city: result[0].locationDetails[0].place,
     status: result[0].status,
     isBlocked: result[0].isBlocked,
     works: result[0].works,
@@ -64,8 +73,8 @@ export const forgotPassword = asyncHandler(async (req, res) => {
     mobile: mobile,
   });
   if (!expertExists) throw new Error("expert not found");
-  //const otp_status = await sendVerificationToken(mobile);
-  const otp_status = true;
+const otp_status = await sendVerificationToken(mobile);
+ // const otp_status = true;
   if (!otp_status) throw new Error("expert forgot password otp sending failed");
 
   res.json({
@@ -76,8 +85,8 @@ export const forgotPassword = asyncHandler(async (req, res) => {
 
 export const forgotPasswordOtpVerify = asyncHandler(async (req, res) => {
   const { mobile, otp }: { mobile: number; otp: string } = req.body;
-  //const otp_status = await checkVerificationToken(otp, mobile);
-  const otp_status = true;
+  const otp_status = await checkVerificationToken(otp, mobile);
+ // const otp_status = true;
   if (!otp_status) throw new AppError(400, "invalid OTP");
 
   res.json({

@@ -8,7 +8,7 @@ export interface IRequest extends Request {
 
 // admin
 export interface IAdmin {
-  _id?:ObjectId
+  _id?: ObjectId;
   name: string;
   password: string;
 }
@@ -31,8 +31,8 @@ export interface IExpert {
   email: string;
   mobile: number;
   password: string;
-  service: ObjectId ;
-  serviceDetails?:IService[]
+  service: ObjectId;
+  serviceDetails?: IService[];
   city: ObjectId;
   isBlocked: boolean;
   works?: mongoose.Types.Array<ObjectId>;
@@ -56,14 +56,14 @@ export interface IService {
   repairCharge1Hour: number;
   repairChargeLatelyHours: number;
   isDeleted?: boolean;
-  bookings:number
+  bookings: number;
 }
 
 // user address
 export interface IAddress {
   fullname: string;
   mobile: string;
-  house:string,
+  house: string;
   street: string;
   landmark: string;
   zipcode: number;
@@ -85,15 +85,24 @@ export interface IBooking {
   payment: boolean;
 }
 
-
 //review
-export interface IReview{
-  _id?:ObjectId
-  user:ObjectId
-  service:ObjectId
-  booking:ObjectId
-  date:Date
-  review:string
+export interface IReview {
+  _id?: ObjectId;
+  user: ObjectId;
+  service: ObjectId;
+  booking: ObjectId;
+  date: Date;
+  review: string;
 }
 
+export interface IConversation {
+  message: string;
+  sender:string
+}
 
+// chat
+export interface IChat {
+  _id?: ObjectId;
+  user: ObjectId;
+  conversation: IConversation[]
+}
