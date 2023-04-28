@@ -51,6 +51,6 @@ const bookingSchema= new Schema<IBooking>({
       default:false
      }
 
-})
+},{timestamps:true})
 
 export default model<IBooking>('booking',bookingSchema)

@@ -34,10 +34,7 @@ import {
   deleteReview,
   fetchReviews,
 } from "../controller/adminController/reviewController";
-import {
-  getCount,
-  getTotals,
-} from "../controller/adminController/dashboardController";
+import { getDashboardDetails } from "../controller/adminController/dashboardController";
 import { validateBody } from "../utils/validateBody";
 import {
   adminSchema,
@@ -107,6 +104,6 @@ router.get("/reviews", fetchReviews);
 router.delete("/reviews/:id", validate_id, deleteReview);
 
 //dashboard
-router.get("/dashboardDetails", getTotals);
-router.get("/getCount", getCount);
+router.get("/dashboardDetails", getDashboardDetails);
+// router.get("/getCount", getCount);
 export default router;

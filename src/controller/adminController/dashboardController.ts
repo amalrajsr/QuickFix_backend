@@ -1,21 +1,18 @@
-import { dashboardHelper } from "../../helper/admin/dashboardHelper"
-import asyncHandler from "express-async-handler"
+import { dashboardHelper } from "../../helper/admin/dashboardHelper";
+import asyncHandler from "express-async-handler";
 
+export const getDashboardDetails = asyncHandler(async (req, res) => {
+  const [total, bookingDetails, revenueDetails] = await Promise.all([
+    dashboardHelper.getTotal(), // fectch total revenue ,total completed bookings and total users
+    dashboardHelper.getCount(), // group bookings based on status
+    dashboardHelper.getWeeklyRevenue(), // fetch weekly revenue
+  ]);
 
-export const getTotals = asyncHandler(async(req,res)=>{
+  res.json({
+    success: true,
+     total,
+     bookingDetails,
+     revenueDetails
+  });
+});
 
-    const result= await dashboardHelper.getTotal()
-   
-    res.json({
-        success:true,
-        result
-    })
-})
-
-export const getCount =asyncHandler(async(req,res)=>{
-    const result = await dashboardHelper.getCount()
-    res.json({
-        success:true,
-        result
-    })
-})

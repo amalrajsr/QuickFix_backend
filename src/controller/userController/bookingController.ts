@@ -87,7 +87,6 @@ export const payBooking = asyncHandler(async (req, res) => {
   };
   
   const order = await instance.orders.create(options);
-
   if (!order) throw new Error("something went wrong");
 
   res.json({

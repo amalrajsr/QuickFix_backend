@@ -25,6 +25,10 @@ const reviewSchema=new Schema<IReview>({
         type:String,
         required:[true,'review is required']
 
+    },
+    rating:{
+        type:Number,
+        required:[true,'rating is required']
     }
     
 })

@@ -93,6 +93,7 @@ export interface IReview {
   booking: ObjectId;
   date: Date;
   review: string;
+  rating:number
 }
 
 export interface IConversation {

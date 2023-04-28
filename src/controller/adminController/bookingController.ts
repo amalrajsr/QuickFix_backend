@@ -22,6 +22,7 @@ export const fetchBookings = asyncHandler(async (req, res) => {
         as: "expert",
       },
     },
+    { $sort:{_id:-1} }
   ];
   const result = await crudHelper.fetchItems(
     bookingCollection,

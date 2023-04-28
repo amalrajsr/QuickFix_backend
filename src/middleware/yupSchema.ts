@@ -1,14 +1,12 @@
 import * as yup from "yup";
 
-
-export const expertForgotPassVerifyOtpSchema= yup.object().shape({
+export const expertForgotPassVerifyOtpSchema = yup.object().shape({
   mobile: yup
     .string()
     .typeError("mobile is required")
     .required("mobile is required")
     .matches(/^\d{10}$/, "mobile number is not valid"),
-    otp: yup.number().typeError("please provide otp "),
-
+  otp: yup.number().typeError("please provide otp "),
 });
 export const forgotPasswordSchema = yup.object().shape({
   NewPass: yup
@@ -57,7 +55,6 @@ export const expertSchema = yup.object().shape({
   password: yup.string().required("password is required"),
 });
 
-
 export const expertRegisterSchema = yup.object().shape({
   email: yup
     .string()
@@ -82,6 +79,9 @@ export const expertRegisterSchema = yup.object().shape({
     .typeError("mobile is required")
     .required("mobile is required")
     .matches(/^\d{10}$/, "mobile number is not valid"),
+   city: yup.string().required("Please provide city"),
+   service: yup.string().required("Please provide service"),
+
 });
 
 // user registration
@@ -96,11 +96,11 @@ export const userSchema = yup.object().shape({
       (value) => value.trim().length > 0
     )
     .matches(/^[a-zA-Z\s]+$/, "Only alphabets are allowed"),
-   mobile: yup
-  .string()
-  .typeError("mobile is required")
-  .required('mobile is required')
-  .matches(/^\d{10}$/, "mobile number is not valid"),
+  mobile: yup
+    .string()
+    .typeError("mobile is required")
+    .required("mobile is required")
+    .matches(/^\d{10}$/, "mobile number is not valid"),
 });
 
 //user login
@@ -112,18 +112,17 @@ export const userLoginMobileSchema = yup.object().shape({
     .matches(/^\d{10}$/, "mobile number is not valid"),
 });
 
-export const userLoginMobileAndOtpSchema= yup.object().shape({
+export const userLoginMobileAndOtpSchema = yup.object().shape({
   mobile: yup
     .string()
     .typeError("mobile is required")
     .required("mobile is required")
     .matches(/^\d{10}$/, "mobile number is not valid"),
-    otp: yup.number().typeError("please provide otp "),
-
+  otp: yup.number().typeError("please provide otp "),
 });
 
 // user verify otp schema
-export const userVerifyOtpSchema= yup.object().shape({
+export const userVerifyOtpSchema = yup.object().shape({
   name: yup
     .string()
     .trim()
@@ -134,15 +133,13 @@ export const userVerifyOtpSchema= yup.object().shape({
       (value) => value.trim().length > 0
     )
     .matches(/^[a-zA-Z\s]+$/, "Only alphabets are allowed"),
-   mobile: yup
-  .string()
-  .typeError("mobile is required")
-  .required('mobile is required')
-  .matches(/^\d{10}$/, "mobile number is not valid"),
+  mobile: yup
+    .string()
+    .typeError("mobile is required")
+    .required("mobile is required")
+    .matches(/^\d{10}$/, "mobile number is not valid"),
   otp: yup.number().typeError("please provide otp "),
-
 });
-
 
 export const otpSchema = yup.object().shape({
   mobile: yup.number().typeError("please provide otp "),
@@ -153,7 +150,6 @@ export const adminSchema = yup.object().shape({
   name: yup.string().required("name is required"),
   password: yup.string().required("password is required"),
 });
-
 
 export const serviceSchema = yup.object().shape({
   service: yup.string().required("mobile is required"),
@@ -175,7 +171,7 @@ export const serviceSchema = yup.object().shape({
     .required("mobile is required"),
 });
 
-// user home address 
+// user home address
 export const addressSchema = yup.object().shape({
   fullname: yup
     .string()

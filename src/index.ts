@@ -6,7 +6,6 @@ import expertRoute from "./routes/expertRoute";
 import chatRoute from './routes/chatRoute'
 import dbConnection from "./config/database";
 import errorHandler from "./middleware/errorHandler";
-import session from "express-session";
 import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import { io } from "./config/socket";
@@ -30,20 +29,6 @@ app.use(
     credentials: true,
   })
 );
-
-app.use(
-  session({
-    resave: true,
-    saveUninitialized: true,
-    secret: process.env.SECRET as string,
-  })
-);
-
-//   declare module "express-session" {
-//     interface SessionData {
-//         user: IUserData
-//     }
-// }
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);

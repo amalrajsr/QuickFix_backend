@@ -36,6 +36,7 @@ export const fetchExperts = asyncHandler(async (req, res) => {
 });
 
 export const addExpert = asyncHandler(async (req, res) => {
+
   const password = Math.random().toString(36).slice(2);
   const passwordHash = await bcrypt.hash(password, 12);
   const expertData = { ...req.body, password: passwordHash };
@@ -56,7 +57,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            } <br>Password:${password} 
            <br> Login here: ${"http://localhost:3000/expert/login"}`,
   };
-  // transporter.sendMail(mailOptions);
+   transporter.sendMail(mailOptions);
 
 
   res.json({
