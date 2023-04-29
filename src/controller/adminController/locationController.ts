@@ -23,7 +23,7 @@ export const addLocation = asyncHandler(async (req, res) => {
 
 export const fetchLocations = asyncHandler(async (req, res) => {
   
-  const result = await crudHelper.fetchItems(locationCollection, {});
+  const result = await crudHelper.fetchItems(locationCollection, {isBlocked:false});
 
   res.json({
     success: true,

@@ -36,6 +36,7 @@ export interface IExpert {
   city: ObjectId;
   isBlocked: boolean;
   works?: mongoose.Types.Array<ObjectId>;
+  myWorks?:Array<any>
 }
 
 //location

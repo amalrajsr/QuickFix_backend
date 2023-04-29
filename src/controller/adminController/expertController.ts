@@ -45,7 +45,7 @@ export const addExpert = asyncHandler(async (req, res) => {
   });
 
   if (!result) throw Error("Failed to add Expert");
-
+  console.log(password)
   const mailOptions = {
     from: process.env.AUTH_USER,
     to: result.email,
@@ -57,7 +57,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            } <br>Password:${password} 
            <br> Login here: ${"http://localhost:3000/expert/login"}`,
   };
-   transporter.sendMail(mailOptions);
+  //transporter.sendMail(mailOptions);
 
 
   res.json({
