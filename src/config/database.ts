@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const dbConnection = () => {
 
-  const uri: string = process.env.MONGOURI || "mongodb://127.0.0.1:27017/quickfix"
+  const uri: string = process.env.MONGOURI as string
   mongoose.set('strictQuery', true);
 
   //Database connection

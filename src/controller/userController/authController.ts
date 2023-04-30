@@ -84,6 +84,7 @@ export const resendOtp = asyncHandler(async (req, res) => {
 });
 
 export const userLogin = asyncHandler(async (req, res) => {
+  console.log('hello')
   const mobile: number = req.body.mobile;
   const userExist = await authHelpers.findUserByMobile(mobile);
 
