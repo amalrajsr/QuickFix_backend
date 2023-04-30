@@ -25,8 +25,8 @@ app.use(
 
 app.use(
   cors({
-    origin: ['https://quickfix.amalraj.tech'],
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    origin: ['*'],
+    // methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
