@@ -4,9 +4,11 @@ import expertCollection from "../../model/expertModel";
 import { transporter } from "../../utils/nodemailer";
 import bcrypt from "bcrypt";
 export const fetchExperts = asyncHandler(async (req, res) => {
+
+  const aggregate=true
   const result = await crudHelper.fetchItems(
     expertCollection,
-    [
+    [ {$match:{isBlocked:false}},
       {
         $lookup: {
           from: "services",
@@ -23,14 +25,21 @@ export const fetchExperts = asyncHandler(async (req, res) => {
           as: "city",
         },
       },
+      {
+        $lookup:{
+          from:"bookings",
+          localField:"works",
+          foreignField: "_id",
+          as:"works"
+        }
+      }
     ],
-    true
+    aggregate
   );
 
-  
 
   res.json({
-    sucess: true,
+    success: true,
     result,
   });
 });
@@ -57,7 +66,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            } <br>Password:${password} 
            <br> Login here: ${"http://localhost:3000/expert/login"}`,
   };
-  //transporter.sendMail(mailOptions);
+  transporter.sendMail(mailOptions);
 
 
   res.json({

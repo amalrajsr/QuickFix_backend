@@ -3,7 +3,7 @@ import { authorization } from "../middleware/authHandler";
 import { jwtChecker } from "../utils/jwtChecker";
 import {register,verify_otp,userLogin,verifyLoginOtp,resendOtp} from '../controller/userController/authController'
 import { fetchServices } from "../controller/adminController/serviceController";
-import { addBooking, viewBookings,cancelBooking ,payBooking,paymentSuccess} from "../controller/userController/bookingController";
+import { addBooking, viewBookings,cancelBooking ,payBooking,paymentSuccess, fetchLocations} from "../controller/userController/bookingController";
 import { updateProfile,updateProfileImage } from "../controller/userController/profileController";
 import { fetchExpertsbyService,fetchTrendingService } from "../controller/userController/serviceController";
 import { addReview,fetchSingleReview,updateReview,deleteReview,fetchReviewsByService } from "../controller/userController/reviewController";
@@ -29,6 +29,7 @@ router.route('/profile/:id').patch(validate_id, updateProfile).put(uploadCloudin
 
 //booking
 router.post('/bookings',addBooking) 
+router.get('/booking/locations',fetchLocations)
 router.route('/bookings/:id').get(validate_id,viewBookings).patch(validate_id,cancelBooking)
 
 //payment

@@ -7,7 +7,6 @@ import AppError from "../../utils/error";
 
 export const updateExpertProfile=asyncHandler(async(req,res)=>{
 
-console.log(req.body)
     const result= await crudHelper.editItem(expertCollection,req.params.id,req.body)
     res.json({
         success: result,

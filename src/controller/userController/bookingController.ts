@@ -8,6 +8,19 @@ import AppError from "../../utils/error";
 import { instance } from "../../config/razorpay";
 import crypto from "crypto";
 import { serviceHelper } from "../../helper/service/serviceHelper";
+import locationCollection from "../../model/locationModel";
+
+
+export const fetchLocations = asyncHandler(async (req, res) => {
+  
+  const result = await crudHelper.fetchItems(locationCollection,{isBlocked:false});
+
+  res.json({
+    success: true,
+    locations: result,
+  });
+});
+
 export const addBooking = asyncHandler(async (req, res) => {
   const Experts = await bookingHelper.checkExperts(
     req.body.service,

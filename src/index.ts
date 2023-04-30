@@ -10,6 +10,7 @@ import cors from "cors";
 import mongoSanitize from "express-mongo-sanitize";
 import { io } from "./config/socket";
 import socketApi from "./utils/socketApi";
+import notFound from "./utils/404";
 dotenv.config();
 
 const app = express();
@@ -34,6 +35,7 @@ app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/expert", expertRoute);
 app.use("/api/v1/chat", chatRoute);
+app.use("*",notFound)
 
 // golbal error handler
 app.use(errorHandler);
