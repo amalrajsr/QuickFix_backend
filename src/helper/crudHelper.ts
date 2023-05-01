@@ -1,5 +1,6 @@
 import AppError from "../utils/error";
 import { Model } from "mongoose";
+
 export const crudHelper = {
   async addItem<T>(
     model: Model<T>,
@@ -59,6 +60,7 @@ export const crudHelper = {
         return data;
       }
     } catch (error) {
+      console.log(error)
       throw new Error();
     }
   },

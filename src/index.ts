@@ -23,15 +23,14 @@ app.use(
   })
 );
 
-// app.use(
-//   cors({
-//     origin: ['*'],
-//     // methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-//     credentials: true,
-//   })
-// );
+app.use(
+  cors({
+    origin: [process.env.ORIGIN_URL as string],
+     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 
-app.use(cors());
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);

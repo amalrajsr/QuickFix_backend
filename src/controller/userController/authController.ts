@@ -8,20 +8,16 @@ import { createToken } from "../../utils/tokenGenerator";
 import { authHelpers } from "../../helper/user/authHepler";
 import asyncHandler from "express-async-handler";
 
-
-
-
 export const register = asyncHandler(async (req, res) => {
   const { name, mobile }: { name: string; mobile: number } = req.body;
 
   const userExist = await authHelpers.findUserByMobile(mobile);
-   
+
   if (userExist) {
     throw new AppError(409, "user already exists");
   } else {
-   
-      const otp_status = await sendVerificationToken(mobile);
-      // const otp_status = true
+    const otp_status = await sendVerificationToken(mobile);
+    // const otp_status = true
     if (otp_status) {
       res.json({
         success: true,
@@ -33,44 +29,39 @@ export const register = asyncHandler(async (req, res) => {
 });
 
 export const verify_otp = asyncHandler(async (req, res) => {
+  const { name, mobile, otp } = req.body;
+  if (!name || !mobile || !otp) {
+    throw new AppError(400, "bad request");
+  }
 
-    const { name, mobile,otp } = req.body;
-     if(!name || !mobile || !otp){
-      throw new AppError(400,'bad request')
-     }
+  const data = await checkVerificationToken(otp, mobile);
+  //  const data=true
 
-    const data = await checkVerificationToken(otp, mobile);
-    //  const data=true
+  if (data) {
+    const user = new userCollection({
+      name: name,
+      mobile: mobile,
+      avatar:
+        "https://res.cloudinary.com/dsw9tifez/image/upload/v1680511516/quickfix/static/profile_eil3c6.jpg",
+    });
 
-    if (data) {
-      const user = new userCollection({
-        name: name,
-        mobile: mobile,
-        avatar:'https://res.cloudinary.com/dsw9tifez/image/upload/v1680511516/quickfix/static/profile_eil3c6.jpg'
-      });
-
-
-      await user.save();
-      const token = createToken(user._id);
-      res.status(201)
-        .json({
-          created: true,
-          user,
-          token,
-        })
-        ;
-    } else {
-      throw new AppError(400, "invalid otp");
-    }
-
+    await user.save();
+    const token = createToken(user._id);
+    res.status(201).json({
+      created: true,
+      user,
+      token,
+    });
+  } else {
+    throw new AppError(400, "invalid otp");
+  }
 });
 
 export const resendOtp = asyncHandler(async (req, res) => {
-
   if (req.body) {
     const { mobile } = req.body;
-     const otp_status = await sendVerificationToken(mobile);
-  //  const otp_status=true
+    const otp_status = await sendVerificationToken(mobile);
+    //  const otp_status=true
     if (otp_status) {
       res.status(200).json({
         success: true,
@@ -84,28 +75,21 @@ export const resendOtp = asyncHandler(async (req, res) => {
 });
 
 export const userLogin = asyncHandler(async (req, res) => {
-  console.log('hello')
   const mobile: number = req.body.mobile;
   const userExist = await authHelpers.findUserByMobile(mobile);
 
-  if (userExist) {
-    if (userExist.isBlocked) {
-      throw new AppError(401, "your account has been blocked");
-    } else {
-       const otp_status = await sendVerificationToken(mobile);
-      // const otp_status = true
+  if (!userExist) throw new Error("user does not exists");
 
-      if (otp_status) {
-        res
-          .json({
-            success: true,
-          })
-         
-      }
-    }
-  } else {
-    throw new AppError(400, "Something went wrong please try again later");
-  }
+  if (userExist.isBlocked)
+    throw new AppError(401, "your account has been blocked");
+
+  const otp_status = await sendVerificationToken(mobile);
+
+  // const otp_status = true
+  if (!otp_status) throw new Error("failed to send otp");
+  res.json({
+    success: true,
+  });
 });
 
 export const verifyLoginOtp = asyncHandler(async (req, res) => {

@@ -32,11 +32,12 @@ export const jwtChecker = asyncHandler(async (req, res) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
     if (typeof decoded !== "string") {
       const user = await collection.findById(decoded.id);
-      if (user.isBlocked) {
-        throw new AppError(401, "your account has been blocked");
-      }
       if (!user) {
         throw new AppError(401, "invalid token");
+      }
+
+      if (user.isBlocked) {
+        throw new AppError(401, "your account has been blocked");
       } else {
         res.json({
           success: true,

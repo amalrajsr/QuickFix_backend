@@ -49,7 +49,6 @@ export const bookingHelper = {
           as: "myWorks",
         },
       },
-      { $match: { myWorks: { $elemMatch: { status: { $ne: "completed" } } } } },
       { $project: { name: 1, myWorks: 1, _id: 0 } },
     ]);
 

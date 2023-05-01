@@ -34,7 +34,6 @@ export const expertLogin = asyncHandler(async (req, res) => {
     true
   );
 
-  console.log(result)
   if (!result) {
     throw new AppError(400, "invalid email or passsword");
   }

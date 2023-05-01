@@ -10,10 +10,10 @@ import crypto from "crypto";
 import { serviceHelper } from "../../helper/service/serviceHelper";
 import locationCollection from "../../model/locationModel";
 
-
 export const fetchLocations = asyncHandler(async (req, res) => {
-  
-  const result = await crudHelper.fetchItems(locationCollection,{isBlocked:false});
+  const result = await crudHelper.fetchItems(locationCollection, {
+    isBlocked: false,
+  });
 
   res.json({
     success: true,
@@ -28,27 +28,28 @@ export const addBooking = asyncHandler(async (req, res) => {
   );
 
   if (Experts.length > 0) {
+    
     const freeExperts = Experts.filter((expert) => {
       return (
         expert.myWorks?.every(
           (works) =>
-            new Date(works.date).getTime() !== new Date(req.body.date).getTime()
-        ) && expert
+            new Date(works.date).getTime() !== new Date(req.body.date).getTime() && works?.status !=='completed'
+        ) &&  expert
       );
     });
-
+   
     if (freeExperts.length < 1)
       throw new AppError(400, "No experts available for this date");
   }
 
   const newDate = req.body.date;
   const booking = { ...req.body, date: newDate };
-   const result = await crudHelper.addItem(bookingCollection, booking);
+  const result = await crudHelper.addItem(bookingCollection, booking);
 
   if (!result) {
     throw Error("error occured while booking");
   }
-   const status = await bookingHelper.addBooking(req.body.user, result._id);
+  const status = await bookingHelper.addBooking(req.body.user, result._id);
 
   if (!status) {
     throw Error("error occured while updating user booking");
@@ -130,7 +131,6 @@ export const paymentSuccess = asyncHandler(async (req, res) => {
   const {
     orderCreationId,
     razorpayPaymentId,
-    razorpayOrderId,
     razorpaySignature,
     bookingId,
     service,
