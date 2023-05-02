@@ -5,6 +5,7 @@ import { crudHelper } from "../../helper/crudHelper";
 import { serviceHelper } from "../../helper/service/serviceHelper";
 
 export const fetchExpertsbyService = asyncHandler(async (req, res) => {
+
   const results = await Promise.allSettled([
     crudHelper.fetchItems(expertCollection, { service: req.params.id,isBlocked:false }),
     crudHelper.fetchItems(bookingCollection, { service: req.params.name }),
@@ -12,7 +13,6 @@ export const fetchExpertsbyService = asyncHandler(async (req, res) => {
 
   const experts = results[0].status === "fulfilled" ? results[0].value : null;
   const works = results[1].status === "fulfilled" ? results[1].value : null;
-
   res.json({
     success: true,
     experts: experts?.length ||0,

@@ -22,6 +22,8 @@ export const fetchLocations = asyncHandler(async (req, res) => {
 });
 
 export const addBooking = asyncHandler(async (req, res) => {
+
+  
   const Experts = await bookingHelper.checkExperts(
     req.body.service,
     +req.body.address.zipcode

@@ -4,11 +4,11 @@ import expertCollection from "../../model/expertModel";
 import { transporter } from "../../utils/nodemailer";
 import bcrypt from "bcrypt";
 export const fetchExperts = asyncHandler(async (req, res) => {
-
-  const aggregate=true
+  const aggregate = true;
   const result = await crudHelper.fetchItems(
     expertCollection,
-    [ {$match:{isBlocked:false}},
+    [
+      { $match: { isBlocked: false } },
       {
         $lookup: {
           from: "services",
@@ -26,17 +26,16 @@ export const fetchExperts = asyncHandler(async (req, res) => {
         },
       },
       {
-        $lookup:{
-          from:"bookings",
-          localField:"works",
+        $lookup: {
+          from: "bookings",
+          localField: "works",
           foreignField: "_id",
-          as:"works"
-        }
-      }
+          as: "works",
+        },
+      },
     ],
     aggregate
   );
-
 
   res.json({
     success: true,
@@ -45,7 +44,6 @@ export const fetchExperts = asyncHandler(async (req, res) => {
 });
 
 export const addExpert = asyncHandler(async (req, res) => {
-
   const password = Math.random().toString(36).slice(2);
   const passwordHash = await bcrypt.hash(password, 12);
   const expertData = { ...req.body, password: passwordHash };
@@ -54,7 +52,7 @@ export const addExpert = asyncHandler(async (req, res) => {
   });
 
   if (!result) throw Error("Failed to add Expert");
-  console.log(password)
+  console.log(password);
   const mailOptions = {
     from: process.env.AUTH_USER,
     to: result.email,
@@ -64,7 +62,7 @@ export const addExpert = asyncHandler(async (req, res) => {
            </h4><h4> you can now login using this credentials </h4> Email: ${
              result.email
            } <br>Password:${password} 
-           <br> Login here: ${"http://localhost:3000/expert/login"}`,
+           <br> Login here: ${"https://quickfix.amalraj.tech/expert/login"}`,
   };
   transporter.sendMail(mailOptions);
 

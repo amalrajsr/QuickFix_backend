@@ -78,7 +78,7 @@ export const userLogin = asyncHandler(async (req, res) => {
   const mobile: number = req.body.mobile;
   const userExist = await authHelpers.findUserByMobile(mobile);
 
-  if (!userExist) throw new Error("user does not exists");
+  if (!userExist) throw new AppError(400,"Invalid credentials");
 
   if (userExist.isBlocked)
     throw new AppError(401, "your account has been blocked");
