@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import userRoute from "./routes/userRoute";
 import adminRoute from "./routes/adminRoute";
 import expertRoute from "./routes/expertRoute";
-import chatRoute from './routes/chatRoute'
+import chatRoute from "./routes/chatRoute";
 import dbConnection from "./config/database";
 import errorHandler from "./middleware/errorHandler";
 import cors from "cors";
@@ -26,17 +26,16 @@ app.use(
 app.use(
   cors({
     origin: [process.env.ORIGIN_URL as string],
-     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   })
 );
-
 
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/admin", adminRoute);
 app.use("/api/v1/expert", expertRoute);
 app.use("/api/v1/chat", chatRoute);
-app.use("*",notFound)
+app.use("*", notFound);
 
 // golbal error handler
 app.use(errorHandler);

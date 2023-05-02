@@ -8,7 +8,6 @@ export const fetchExperts = asyncHandler(async (req, res) => {
   const result = await crudHelper.fetchItems(
     expertCollection,
     [
-      { $match: { isBlocked: false } },
       {
         $lookup: {
           from: "services",

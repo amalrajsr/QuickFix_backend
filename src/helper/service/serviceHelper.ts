@@ -19,7 +19,7 @@ export const serviceHelper = {
   async trendingservice():Promise<IService[]|null>{
 
     try{
-        const result = await serviceCollection.find().sort({bookings:-1}).limit(3)
+        const result = await serviceCollection.find({isDeleted:false}).sort({bookings:-1}).limit(3)
         return result
     }catch(error){
        throw new Error()
