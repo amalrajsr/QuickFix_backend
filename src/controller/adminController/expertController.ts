@@ -65,7 +65,6 @@ export const addExpert = asyncHandler(async (req, res) => {
   };
   transporter.sendMail(mailOptions);
 
-
   res.json({
     success: true,
     result,

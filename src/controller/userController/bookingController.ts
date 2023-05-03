@@ -28,22 +28,24 @@ export const addBooking = asyncHandler(async (req, res) => {
     req.body.service,
     +req.body.address.zipcode
   );
-
+    
   if (Experts.length > 0) {
     
     const freeExperts = Experts.filter((expert) => {
       return (
         expert.myWorks?.every(
           (works) =>
-            new Date(works.date).getTime() !== new Date(req.body.date).getTime() && works?.status !=='completed'
+            new Date(works.date).getTime() !== new Date(req.body.date).getTime() && ['completed','cancelled'].includes(works?.status)
         ) &&  expert
       );
     });
    
     if (freeExperts.length < 1)
       throw new AppError(400, "No experts available for this date");
+
   }
 
+ 
   const newDate = req.body.date;
   const booking = { ...req.body, date: newDate };
   const result = await crudHelper.addItem(bookingCollection, booking);

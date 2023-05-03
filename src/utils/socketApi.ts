@@ -33,6 +33,7 @@ function socketApi() {
     });
 
     socket.on("send-message", ({ userId, message, sender }) => {
+   
       const messageData = {
         senderId: userId,
         sender,
@@ -40,6 +41,7 @@ function socketApi() {
       };
 
       const user = findUser(userId);
+   
       user && io.to(user?.socketId).emit("getMessage", messageData);
       io.to(adminId).emit("getMessage", messageData);
     });
