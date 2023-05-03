@@ -28,7 +28,6 @@ export const addBooking = asyncHandler(async (req, res) => {
     req.body.service,
     +req.body.address.zipcode
   );
-    console.log(Experts[0].myWorks)
   if (Experts.length > 0) {
     
     const freeExperts = Experts.filter((expert) => {
