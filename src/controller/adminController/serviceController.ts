@@ -74,11 +74,6 @@ export const fetchSingleService = asyncHandler(async (req, res) => {
 export const editService = asyncHandler(async (req: IRequest, res) => {
   const name = req.body.service.toUpperCase();
   let serviceData: IService = { ...req.body, service: name };
-  const serviceExists = await serviceHelpers.fetchSingleService({
-    service: name,
-  });
-
-  if (serviceExists) throw new AppError(409, "service already exist");
   if (req.files.image) {
     const result = await cloudinary.uploader.upload(req.files.image[0].path, {
       transformation: [
